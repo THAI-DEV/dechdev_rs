@@ -9,3 +9,5 @@ repository = "https://github.com/THAI-DEV/dechdev_rs"
 
 
 [dependencies]
+rand = "0.9.1"
+regex = "1.11.1"
