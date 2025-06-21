@@ -59,7 +59,6 @@ pub fn random_string_number(length: u32) -> String {
 /// Generates a random string A-Z a-z
 ///
 /// Ex : bjejaMzzce
-
 pub fn random_string_alpha(length: u32) -> String {
     //A-Z a-z
     use rand::{Rng, distr::Uniform};
