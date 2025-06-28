@@ -27,19 +27,19 @@ fn main() {
     let s4 = string::to_camel_case(original, true);
 
     helper::scroll_console();
-    println!("Random Number: {}", random_num);
-    println!("Random String: {}", random_str);
-    println!("Random String 2: {}", random_str2);
-    println!("Random String 3: {}", random_str3);
-    println!("Random String 4: {}", random_str4);
-    println!("Random String 5: {}", random_str5);
+    println!("Random Number: {random_num}");
+    println!("Random String: {random_str}");
+    println!("Random String 2: {random_str2}");
+    println!("Random String 3: {random_str3}");
+    println!("Random String 4: {random_str4}");
+    println!("Random String 5: {random_str5}");
 
     let spell = string::to_thai_pronunciation(&random_str5);
-    println!("Spell String: {}", spell);
+    println!("Spell String: {spell}");
 
-    println!("Original String: {}", original);
-    println!("Pascal Case: {}", s1);
-    println!("Snake Case: {}", s2);
-    println!("Kebab Case: {}", s3);
-    println!("Camel Case: {}", s4);
+    println!("Original String: {original}");
+    println!("Pascal Case: {s1}");
+    println!("Snake Case: {s2}");
+    println!("Kebab Case: {s3}");
+    println!("Camel Case: {s4}");
 }
