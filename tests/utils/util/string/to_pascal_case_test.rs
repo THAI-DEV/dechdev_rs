@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
     use dechdev_rs::utils::string::to_pascal_case;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_to_pascal_case() {

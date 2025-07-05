@@ -7,6 +7,9 @@ description = "A Rust library for DechDev, a decentralized development platform.
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/THAI-DEV/dechdev_rs"
 
+[dev-dependencies]
+pretty_assertions = "1.0.0"
+
 [[test]]
 name = "test_1"
 path = "tests/utils/util/string/to_pascal_case_test.rs"

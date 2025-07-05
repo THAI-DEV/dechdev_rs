@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
-
     use dechdev_rs::utils::string::to_camel_case;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_empty_string() {
