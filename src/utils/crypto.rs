@@ -5,7 +5,7 @@ use aes_gcm::{
 use base64::{Engine as _, engine::general_purpose};
 use bcrypt::{DEFAULT_COST, hash, verify};
 
-pub fn encrypt_string(plain_text: &str, secret_key: &str) -> Result<String, aes_gcm::Error> {
+pub fn encrypt_string(plain_text: &str, secret_key: &str) -> Result<String, String> {
     // Create a key from the secret key (in a real app, use proper key derivation)
     let mut key_bytes = [0u8; 32];
     let secret_bytes = secret_key.as_bytes();
@@ -21,7 +21,9 @@ pub fn encrypt_string(plain_text: &str, secret_key: &str) -> Result<String, aes_
     let nonce = Nonce::from_slice(&nonce_bytes);
 
     // Encrypt the data
-    let ciphertext = cipher.encrypt(nonce, plain_text.as_bytes())?;
+    let ciphertext = cipher
+        .encrypt(nonce, plain_text.as_bytes())
+        .map_err(|e| format!("Encryption failed: {e}"))?;
 
     // Combine nonce and ciphertext, then base64 encode
     let mut combined = nonce_bytes.to_vec();
@@ -30,14 +32,14 @@ pub fn encrypt_string(plain_text: &str, secret_key: &str) -> Result<String, aes_
     Ok(general_purpose::STANDARD.encode(combined))
 }
 
-pub fn decrypt_string(encrypt_text: &str, secret_key: &str) -> Result<String, aes_gcm::Error> {
+pub fn decrypt_string(encrypt_text: &str, secret_key: &str) -> Result<String, String> {
     // Decode from base64
     let combined = general_purpose::STANDARD
         .decode(encrypt_text)
-        .map_err(|_| aes_gcm::Error)?;
+        .map_err(|_| "Base64 decode failed".to_string())?;
 
     if combined.len() < 12 {
-        return Err(aes_gcm::Error);
+        return Err("Invalid ciphertext length".to_string());
     }
 
     // Split nonce and ciphertext
@@ -54,9 +56,11 @@ pub fn decrypt_string(encrypt_text: &str, secret_key: &str) -> Result<String, ae
     let cipher = Aes256Gcm::new(key);
 
     // Decrypt the data
-    let plaintext = cipher.decrypt(nonce, ciphertext)?;
+    let plaintext = cipher
+        .decrypt(nonce, ciphertext)
+        .map_err(|e| format!("Decryption failed: {e}"))?;
 
-    String::from_utf8(plaintext).map_err(|_| aes_gcm::Error)
+    String::from_utf8(plaintext).map_err(|_| "UTF-8 conversion failed".to_string())
 }
 
 pub fn bcrypt_hash_string(plain_text: &str) -> Result<String, bcrypt::BcryptError> {

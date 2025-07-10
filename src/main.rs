@@ -1,17 +1,20 @@
 use dechdev_rs::messager::discord;
 use dechdev_rs::utils::crypto;
+use dechdev_rs::utils::crypto_general;
 use dechdev_rs::utils::helper;
 use dechdev_rs::utils::random;
 use dechdev_rs::utils::string;
 
 fn main() {
     helper::scroll_console();
+    println!("Welcome to DechDev-RS!");
 
     // app_random();
     // app_string_case();
-    app_send_message();
+    // app_send_message();
 
     // app_encode_decode();
+    // app_encode_decode_general();
 }
 
 #[allow(dead_code)]
@@ -162,4 +165,31 @@ fn app_encode_decode() {
             println!("Verification failed: {e}");
         }
     };
+}
+
+#[allow(dead_code)]
+fn app_encode_decode_general() {
+    let plain_text = "This is test program";
+    let secret_key = "fds13rpowhls59wnpahmtps112456789"; // 32 characters for AES-256
+
+    let mut encrypted_text = "".to_string();
+
+    match crypto_general::encrypt_string(plain_text, secret_key) {
+        Ok(str1) => {
+            println!("{str1}"); // Should output: YHPtkP6cNt5bZoi6vzxnWYn9Pq2CfjMi+siz/N6uYQQ=
+            encrypted_text = str1;
+        }
+        Err(e) => {
+            println!("Encryption failed: {e}");
+        }
+    }
+
+    match crypto_general::decrypt_string(&encrypted_text, secret_key) {
+        Ok(str2) => {
+            println!("{str2}"); // Should output: This is test program
+        }
+        Err(e) => {
+            println!("Decryption failed: {e}");
+        }
+    }
 }
