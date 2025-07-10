@@ -1,4 +1,5 @@
 use dechdev_rs::messager::discord;
+use dechdev_rs::utils::crypto;
 use dechdev_rs::utils::helper;
 use dechdev_rs::utils::random;
 use dechdev_rs::utils::string;
@@ -8,8 +9,9 @@ fn main() {
 
     // app_random();
     // app_string_case();
-
     // app_send_message();
+
+    app_encode_decode();
 }
 
 #[allow(dead_code)]
@@ -100,4 +102,64 @@ fn app_send_message() {
         ),
         Err(e) => println!("Failed to send message: {e}"),
     }
+}
+
+#[allow(dead_code)]
+fn app_encode_decode() {
+    let plain_text = "This is a secret message";
+    let secret_key = "password_123";
+
+    let mut encrypted_text = "".to_string();
+    let mut hash_string = "".to_string();
+
+    println!("--- AES Encryption/Decryption ---");
+    match crypto::encrypt_string(plain_text, secret_key) {
+        Ok(encrypted) => {
+            println!("Encrypted: {encrypted}");
+            println!("Encrypted Text: Success");
+            encrypted_text = encrypted;
+        }
+        Err(e) => {
+            println!("Encryption failed: {e}");
+            println!("Encrypted Text: Failed");
+        }
+    };
+
+    println!("\n--- AES Decryption ---");
+    match crypto::decrypt_string(encrypted_text.as_str(), secret_key) {
+        Ok(decrypted) => {
+            println!("Decrypted: {decrypted}");
+            println!("Decrypted Text: Success");
+        }
+        Err(e) => {
+            println!("Decryption failed: {e}");
+            println!("Decrypted Text: Failed");
+        }
+    };
+
+    println!("\n--- Bcrypt Hashing ---");
+    match crypto::bcrypt_hash_string(plain_text) {
+        Ok(hashed) => {
+            println!("Hashed: {hashed}");
+            println!("Hashed Text: Success");
+            hash_string = hashed;
+        }
+        Err(e) => {
+            println!("Hashing failed: {e}");
+            println!("Hashed Text: Failed");
+        }
+    };
+
+    println!("\n--- Bcrypt Verification ---");
+    match crypto::bcrypt_verify(plain_text, hash_string.as_str()) {
+        Ok(is_valid) => {
+            println!(
+                "Verification: {}",
+                if is_valid { "Valid" } else { "Invalid" }
+            );
+        }
+        Err(e) => {
+            println!("Verification failed: {e}");
+        }
+    };
 }

@@ -22,3 +22,7 @@ path = "tests/utils/util/string/to_camel_case_test.rs"
 rand = "0.9.1"
 regex = "1.11.1"
 reqwest = { version = "0.12.22", features = ["json", "blocking"] }
+bcrypt = "0.17.0"
+aes-gcm = "0.10"
+hex = "0.4"
+base64 = "0.22"
