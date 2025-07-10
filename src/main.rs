@@ -1,6 +1,6 @@
 use dechdev_rs::messager::discord;
+use dechdev_rs::utils::bcrypt;
 use dechdev_rs::utils::crypto;
-use dechdev_rs::utils::crypto_fix;
 use dechdev_rs::utils::helper;
 use dechdev_rs::utils::random;
 use dechdev_rs::utils::string;
@@ -13,8 +13,8 @@ fn main() {
     // app_string_case();
     // app_send_message();
 
-    // app_encode_decode();
-    // app_encode_decode_fix();
+    // bcrypt();
+    // app_crypto();
 }
 
 #[allow(dead_code)]
@@ -108,7 +108,7 @@ fn app_send_message() {
 }
 
 #[allow(dead_code)]
-fn app_encode_decode() {
+fn app_bcrypt() {
     let plain_text = "This is a secret message";
     let secret_key = "password_123";
 
@@ -116,7 +116,7 @@ fn app_encode_decode() {
     let mut hash_string = "".to_string();
 
     println!("--- AES Encryption/Decryption ---");
-    match crypto::encrypt_string(plain_text, secret_key) {
+    match bcrypt::encrypt_string(plain_text, secret_key) {
         Ok(encrypted) => {
             println!("Encrypted: {encrypted}");
             println!("Encrypted Text: Success");
@@ -129,7 +129,7 @@ fn app_encode_decode() {
     };
 
     println!("\n--- AES Decryption ---");
-    match crypto::decrypt_string(encrypted_text.as_str(), secret_key) {
+    match bcrypt::decrypt_string(encrypted_text.as_str(), secret_key) {
         Ok(decrypted) => {
             println!("Decrypted: {decrypted}");
             println!("Decrypted Text: Success");
@@ -141,7 +141,7 @@ fn app_encode_decode() {
     };
 
     println!("\n--- Bcrypt Hashing ---");
-    match crypto::bcrypt_hash_string(plain_text) {
+    match bcrypt::bcrypt_hash_string(plain_text) {
         Ok(hashed) => {
             println!("Hashed: {hashed}");
             println!("Hashed Text: Success");
@@ -154,7 +154,7 @@ fn app_encode_decode() {
     };
 
     println!("\n--- Bcrypt Verification ---");
-    match crypto::bcrypt_verify(plain_text, hash_string.as_str()) {
+    match bcrypt::bcrypt_verify(plain_text, hash_string.as_str()) {
         Ok(is_valid) => {
             println!(
                 "Verification: {}",
@@ -168,13 +168,13 @@ fn app_encode_decode() {
 }
 
 #[allow(dead_code)]
-fn app_encode_decode_fix() {
+fn app_crypto() {
     let plain_text = "This is test program";
     let secret_key = "fds13rpowhls59wnpahmtps112456789"; // 32 characters for AES-256
 
     let mut encrypted_text = "".to_string();
 
-    match crypto_fix::encrypt_string(plain_text, secret_key) {
+    match crypto::encrypt_string(plain_text, secret_key) {
         Ok(str1) => {
             println!("{str1}"); // Should output: YHPtkP6cNt5bZoi6vzxnWYn9Pq2CfjMi+siz/N6uYQQ=
             encrypted_text = str1;
@@ -184,7 +184,7 @@ fn app_encode_decode_fix() {
         }
     }
 
-    match crypto_fix::decrypt_string(&encrypted_text, secret_key) {
+    match crypto::decrypt_string(&encrypted_text, secret_key) {
         Ok(str2) => {
             println!("{str2}"); // Should output: This is test program
         }

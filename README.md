@@ -19,5 +19,5 @@ Encryption Methods
 
 ###
 
-    crypto_fix : output as constant values : AES-256-CBC : Fixed IV
-    crypto : output as non-constant values
+    crypto  : output as constant values : AES-256-CBC : Fixed IV
+    bcrypt : output as non-constant values
