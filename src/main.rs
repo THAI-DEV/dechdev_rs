@@ -9,9 +9,9 @@ fn main() {
 
     // app_random();
     // app_string_case();
-    // app_send_message();
+    app_send_message();
 
-    app_encode_decode();
+    // app_encode_decode();
 }
 
 #[allow(dead_code)]
@@ -69,7 +69,7 @@ fn app_send_message() {
 
     let json_message = r#"
     {
-        "content": "Here's an embedded message:",
+        "content": "สวัสดีครับ \r\nนี่คือข้อความทดสอบจาก DechDev-RS",
         "embeds": [
             {
                 "title": "Embed Title",
