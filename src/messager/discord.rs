@@ -39,12 +39,13 @@ impl DiscordMessager {
                         status: resp.status().to_string(),
                         message: resp.text().unwrap_or_default(),
                     };
+
                     Ok(result)
                 } else {
                     let result = ResultDiscordMessage {
                         is_success: false,
                         status: resp.status().to_string(),
-                        message: resp.text().unwrap_or_default(),
+                        message: convert_json_string_to_string(resp.text().unwrap_or_default()),
                     };
                     Ok(result)
                 }
@@ -52,4 +53,13 @@ impl DiscordMessager {
             Err(e) => Err(e),
         }
     }
+}
+
+fn convert_json_string_to_string(s: String) -> String {
+    if s.is_empty() {
+        return String::new();
+    }
+
+    let chars_to_remove = ['{', '}', '"', '\\', '[', ']'];
+    s.chars().filter(|c| !chars_to_remove.contains(c)).collect()
 }
