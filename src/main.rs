@@ -13,7 +13,7 @@ fn main() {
     // app_string_case();
     // app_send_message();
 
-    // bcrypt();
+    // app_bcrypt();
     // app_crypto();
 }
 
