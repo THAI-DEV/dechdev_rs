@@ -15,7 +15,7 @@ fn main() {
     // app_send_message();
 
     // app_crypto_aes();
-    // app_ase_gcm()
+    // app_crypto_ase_gcm()
     // app_bcrypt();
 }
 
@@ -110,7 +110,7 @@ fn app_send_message() {
 }
 
 #[allow(dead_code)]
-fn app_ase_gcm() {
+fn app_crypto_ase_gcm() {
     let plain_text = "This is a secret message";
     let secret_key = "password_123";
 
