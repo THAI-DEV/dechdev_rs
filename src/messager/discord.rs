@@ -53,6 +53,43 @@ impl DiscordMessager {
             Err(e) => Err(e),
         }
     }
+
+    pub async fn send_message_async(
+        &self,
+        json_message: &str,
+    ) -> Result<ResultDiscordMessage, reqwest::Error> {
+        let client = reqwest::Client::new();
+        let response = client
+            .post(&self.webhook_url)
+            .header("Content-Type", "application/json")
+            .body(json_message.to_string())
+            .send()
+            .await;
+
+        match response {
+            Ok(resp) => {
+                if resp.status().is_success() {
+                    let result = ResultDiscordMessage {
+                        is_success: true,
+                        status: resp.status().to_string(),
+                        message: resp.text().await.unwrap_or_default(),
+                    };
+
+                    Ok(result)
+                } else {
+                    let result = ResultDiscordMessage {
+                        is_success: false,
+                        status: resp.status().to_string(),
+                        message: convert_json_string_to_string(
+                            resp.text().await.unwrap_or_default(),
+                        ),
+                    };
+                    Ok(result)
+                }
+            }
+            Err(e) => Err(e),
+        }
+    }
 }
 
 fn convert_json_string_to_string(s: String) -> String {
