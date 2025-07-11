@@ -1,6 +1,7 @@
 use dechdev_rs::messager::discord;
 use dechdev_rs::utils::bcrypt;
-use dechdev_rs::utils::crypto;
+use dechdev_rs::utils::crypto_aes;
+use dechdev_rs::utils::crypto_ase_gcm;
 use dechdev_rs::utils::helper;
 use dechdev_rs::utils::random;
 use dechdev_rs::utils::string;
@@ -13,8 +14,9 @@ fn main() {
     // app_string_case();
     // app_send_message();
 
+    // app_crypto_aes();
+    // app_ase_gcm()
     // app_bcrypt();
-    // app_crypto();
 }
 
 #[allow(dead_code)]
@@ -108,15 +110,14 @@ fn app_send_message() {
 }
 
 #[allow(dead_code)]
-fn app_bcrypt() {
+fn app_ase_gcm() {
     let plain_text = "This is a secret message";
     let secret_key = "password_123";
 
     let mut encrypted_text = "".to_string();
-    let mut hash_string = "".to_string();
 
     println!("--- AES Encryption/Decryption ---");
-    match bcrypt::encrypt_string(plain_text, secret_key) {
+    match crypto_ase_gcm::encrypt_string(plain_text, secret_key) {
         Ok(encrypted) => {
             println!("Encrypted: {encrypted}");
             println!("Encrypted Text: Success");
@@ -129,7 +130,7 @@ fn app_bcrypt() {
     };
 
     println!("\n--- AES Decryption ---");
-    match bcrypt::decrypt_string(encrypted_text.as_str(), secret_key) {
+    match crypto_ase_gcm::decrypt_string(encrypted_text.as_str(), secret_key) {
         Ok(decrypted) => {
             println!("Decrypted: {decrypted}");
             println!("Decrypted Text: Success");
@@ -139,6 +140,39 @@ fn app_bcrypt() {
             println!("Decrypted Text: Failed");
         }
     };
+}
+
+#[allow(dead_code)]
+fn app_crypto_aes() {
+    let plain_text = "This is test program";
+    let secret_key = "fds13rpowhls59wnpahmtps112456789"; // 32 characters for AES-256
+
+    let mut encrypted_text = "".to_string();
+
+    match crypto_aes::encrypt_string(plain_text, secret_key) {
+        Ok(str1) => {
+            println!("{str1}"); // Should output: YHPtkP6cNt5bZoi6vzxnWYn9Pq2CfjMi+siz/N6uYQQ=
+            encrypted_text = str1;
+        }
+        Err(e) => {
+            println!("Encryption failed: {e}");
+        }
+    }
+
+    match crypto_aes::decrypt_string(&encrypted_text, secret_key) {
+        Ok(str2) => {
+            println!("{str2}"); // Should output: This is test program
+        }
+        Err(e) => {
+            println!("Decryption failed: {e}");
+        }
+    }
+}
+
+#[allow(dead_code)]
+fn app_bcrypt() {
+    let plain_text = "This is a secret message";
+    let mut hash_string = "".to_string();
 
     println!("\n--- Bcrypt Hashing ---");
     match bcrypt::bcrypt_hash_string(plain_text) {
@@ -165,31 +199,4 @@ fn app_bcrypt() {
             println!("Verification failed: {e}");
         }
     };
-}
-
-#[allow(dead_code)]
-fn app_crypto() {
-    let plain_text = "This is test program";
-    let secret_key = "fds13rpowhls59wnpahmtps112456789"; // 32 characters for AES-256
-
-    let mut encrypted_text = "".to_string();
-
-    match crypto::encrypt_string(plain_text, secret_key) {
-        Ok(str1) => {
-            println!("{str1}"); // Should output: YHPtkP6cNt5bZoi6vzxnWYn9Pq2CfjMi+siz/N6uYQQ=
-            encrypted_text = str1;
-        }
-        Err(e) => {
-            println!("Encryption failed: {e}");
-        }
-    }
-
-    match crypto::decrypt_string(&encrypted_text, secret_key) {
-        Ok(str2) => {
-            println!("{str2}"); // Should output: This is test program
-        }
-        Err(e) => {
-            println!("Decryption failed: {e}");
-        }
-    }
 }
