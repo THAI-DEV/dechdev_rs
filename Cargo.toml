@@ -22,8 +22,8 @@ path = "tests/utils/util/string/to_camel_case_test.rs"
 aes = "0.8"
 aes-gcm = "0.10"
 base64 = "0.22"
-bcrypt = "0.17.0"
+bcrypt = "0.17.1"
 hex = "0.4"
-rand = "0.9.1"
+rand = "0.9.2"
 regex = "1.11.1"
-reqwest = { version = "0.12.22", features = ["json", "blocking"] }
+reqwest = { version = "0.12.23", features = ["json", "blocking"] }
