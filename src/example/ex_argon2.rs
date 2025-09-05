@@ -5,7 +5,7 @@ pub fn example_argon2() {
     let mut hash_string = "".to_string();
 
     println!("\n--- Argon2 Hashing ---");
-    match argon2::argon2_hash_string(plain_text, "random_salt") {
+    match argon2::argon2_hash_string(plain_text) {
         Ok(hashed) => {
             println!("Hashed: {hashed}");
             println!("Hashed Text: Success");

@@ -243,7 +243,7 @@ dependencies = [
 
 [[package]]
 name = "dechdev_rs"
-version = "0.1.11"
+version = "0.1.12"
 dependencies = [
  "aes",
  "aes-gcm",
@@ -251,8 +251,10 @@ dependencies = [
  "base64",
  "bcrypt",
  "hex",
+ "password-hash",
  "pretty_assertions",
  "rand",
+ "rand_core 0.9.3",
  "regex",
  "reqwest",
 ]

@@ -1,13 +1,15 @@
 use argon2::PasswordHash;
 use argon2::PasswordVerifier;
+use argon2::password_hash::rand_core::OsRng;
 use argon2::{Argon2, PasswordHasher, password_hash::SaltString};
 
-pub fn argon2_hash_string(
-    plain_text: &str,
-    salt: &str,
-) -> Result<String, argon2::password_hash::Error> {
-    let argon2 = Argon2::default();
-    let salt = SaltString::encode_b64(salt.as_bytes()).unwrap();
+pub fn argon2_hash_string(plain_text: &str) -> Result<String, argon2::password_hash::Error> {
+    let algorithm = argon2::Algorithm::Argon2i;
+    let version = argon2::Version::V0x13;
+    let params = argon2::Params::default();
+    let argon2 = Argon2::new(algorithm, version, params);
+    let mut rng = OsRng;
+    let salt = SaltString::generate(&mut rng);
     let hash = argon2.hash_password(plain_text.as_bytes(), &salt).unwrap();
     Ok(hash.to_string())
 }
