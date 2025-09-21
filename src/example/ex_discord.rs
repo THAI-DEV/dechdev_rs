@@ -1,4 +1,4 @@
-use crate::messager::discord;
+use crate::messenger::discord;
 
 pub fn example_send_message() {
     let webhook_id = "1322089545617117204";
