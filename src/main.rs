@@ -20,6 +20,8 @@ fn main() {
     // example::example_send_message();
     // example::example_send_message_async().await;
 
+    // example_elapsed_time_calculation();
+
     println!();
     println!("--- End ({:?}) ---", start_time.elapsed());
 }
