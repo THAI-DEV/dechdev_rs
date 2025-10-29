@@ -14,7 +14,7 @@ pub fn get_execute_path() -> String {
     exe_path.display().to_string().replace("\\", "/")
 }
 
-pub fn locate_file_in_directories(
+pub fn locate_file_from_path(
     file_name: &str,
     primary_path: &str,
     secondary_path: &str,
