@@ -4,5 +4,6 @@ pub mod crypto_aes;
 pub mod crypto_ase_gcm;
 pub mod date_time;
 pub mod helper;
+pub mod path_file;
 pub mod random;
 pub mod string;

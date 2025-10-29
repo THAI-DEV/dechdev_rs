@@ -3,6 +3,7 @@ pub mod ex_bcrypt;
 pub mod ex_crypto;
 pub mod ex_date_time;
 pub mod ex_discord;
+pub mod ex_path_file;
 pub mod ex_random;
 pub mod ex_string;
 
@@ -13,5 +14,6 @@ pub use ex_crypto::example_crypto_ase_gcm;
 pub use ex_date_time::example_elapsed_time_calculation;
 pub use ex_discord::example_send_message;
 pub use ex_discord::example_send_message_async;
+pub use ex_path_file::example_path_file;
 pub use ex_random::example_random;
 pub use ex_string::example_string_case;

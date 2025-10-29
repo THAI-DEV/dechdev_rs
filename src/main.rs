@@ -22,6 +22,8 @@ fn main() {
 
     // example_elapsed_time_calculation();
 
+    // example::example_path_file();
+
     println!();
     println!("--- End ({:?}) ---", start_time.elapsed());
 }
