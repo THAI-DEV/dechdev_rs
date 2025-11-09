@@ -1,5 +1,6 @@
 pub mod ex_argon2;
 pub mod ex_bcrypt;
+pub mod ex_calculate_group;
 pub mod ex_crypto;
 pub mod ex_date_time;
 pub mod ex_discord;
@@ -9,6 +10,7 @@ pub mod ex_string;
 
 pub use ex_argon2::example_argon2;
 pub use ex_bcrypt::example_bcrypt;
+pub use ex_calculate_group::example_calculate_group;
 pub use ex_crypto::example_crypto_aes;
 pub use ex_crypto::example_crypto_ase_gcm;
 pub use ex_date_time::example_elapsed_time_calculation;
