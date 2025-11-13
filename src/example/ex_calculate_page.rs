@@ -1,4 +1,4 @@
-use crate::utils::util::calculate_group_index_range;
+use crate::utils::group::calculate_group_index_range;
 
 pub fn example_calculate_group() {
     //* 1. Simulate source data list
