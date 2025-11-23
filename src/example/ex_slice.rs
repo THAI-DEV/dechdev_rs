@@ -1,4 +1,6 @@
-use crate::utils::slice::{combine_slice, difference_slice, intersect_slice, union_slice};
+use crate::utils::slice::{
+    combine_slice, difference_slice, find_index, intersect_slice, union_slice,
+};
 
 pub fn example_slice() {
     let vec1 = vec!["1.0", "2.0", "3.0"];
@@ -15,4 +17,10 @@ pub fn example_slice() {
 
     let r = combine_slice(&vec1, &vec2);
     println!("combine : {:?}", r);
+
+    let vec3 = vec!["a", "b", "c", "a", "d", "a"];
+    let target = "a";
+
+    let indices = find_index(&vec3, &target);
+    println!("find_index of '{}' in {:?} : {:?}", target, vec3, indices);
 }

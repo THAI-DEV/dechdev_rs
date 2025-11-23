@@ -42,3 +42,10 @@ pub fn combine_slice<T: Clone>(slice1: &[T], slice2: &[T]) -> Vec<T> {
 
     result
 }
+
+pub fn find_index<T: PartialEq>(v: &[T], target: &T) -> Vec<usize> {
+    v.iter()
+        .enumerate()
+        .filter_map(|(index, item)| if *item == *target { Some(index) } else { None })
+        .collect()
+}
