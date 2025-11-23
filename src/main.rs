@@ -27,6 +27,8 @@ fn main() {
     // example::example_calculate_group();
     // example::example_arrange_group();
 
+    // example::example_slice();
+
     println!();
     println!("--- End ({:?}) ---", start_time.elapsed());
 }

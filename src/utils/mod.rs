@@ -7,4 +7,5 @@ pub mod group;
 pub mod helper;
 pub mod path_file;
 pub mod random;
+pub mod slice;
 pub mod string;
