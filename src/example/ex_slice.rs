@@ -1,6 +1,8 @@
 use crate::utils::slice::{
-    combine_slice, difference_slice, find_index, intersect_slice, mutate_remove_slice,
-    mutate_reverse_slice, mutate_sort_slice, remove_slice, reverse_slice, sort_slice, union_slice,
+    combine_slice, difference_slice, find_index_list, intersect_slice, keep_duplicate_slice,
+    mutate_keep_duplicate_slice, mutate_remove_duplicate_slice, mutate_remove_slice,
+    mutate_reverse_slice, mutate_sort_slice, mutate_unique_slice, remove_duplicate_slice,
+    remove_slice, reverse_slice, sort_slice, union_slice, unique_slice,
 };
 
 pub fn example_slice() {
@@ -22,7 +24,7 @@ pub fn example_slice() {
     let vec3 = vec!["a", "b", "c", "a", "d", "a"];
     let target = "a";
 
-    let indices = find_index(&vec3, &target);
+    let indices = find_index_list(&vec3, &target);
     println!("find_index of '{}' in {:?} : {:?}", target, vec3, indices);
 
     let r = reverse_slice(&vec1);
@@ -46,4 +48,28 @@ pub fn example_slice() {
     let mut v4 = vec!["f", "b", "c", "d", "a"];
     mutate_remove_slice(&mut v4, &[3, 1, 0]);
     println!("mutate_remove_slice : {:?}", v4);
+
+    let vec7 = ["a", "b", "b", "d", "a"];
+    let r = unique_slice(&vec7);
+    println!("unique_slice : {:?}", r);
+
+    let mut v7 = vec!["a", "b", "b", "d", "a"];
+    mutate_unique_slice(&mut v7);
+    println!("mutate_unique_slice : {:?}", v7);
+
+    let vec8 = ["a", "b", "b", "d", "a"];
+    let r = remove_duplicate_slice(&vec8);
+    println!("remove_duplicate_slice : {:?}", r);
+
+    let mut v7 = vec!["a", "b", "b", "d", "a"];
+    mutate_remove_duplicate_slice(&mut v7);
+    println!("mutate_remove_duplicate_slice : {:?}", v7);
+
+    let vec9 = ["a", "b", "b", "d", "a"];
+    let r = keep_duplicate_slice(&vec9);
+    println!("keep_duplicate_slice : {:?}", r);
+
+    let mut v7 = vec!["a", "b", "b", "d", "a"];
+    mutate_keep_duplicate_slice(&mut v7);
+    println!("mutate_keep_duplicate_slice : {:?}", v7);
 }

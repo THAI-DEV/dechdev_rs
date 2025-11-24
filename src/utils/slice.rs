@@ -1,4 +1,6 @@
+use std::collections::HashMap;
 use std::fmt::Debug;
+use std::hash::Hash;
 
 pub fn union_slice<T: PartialEq + Clone>(slice1: &[T], slice2: &[T]) -> Vec<T> {
     let mut result = Vec::new();
@@ -45,7 +47,7 @@ pub fn combine_slice<T: Clone>(slice1: &[T], slice2: &[T]) -> Vec<T> {
     result
 }
 
-pub fn find_index<T: PartialEq>(v: &[T], target: &T) -> Vec<usize> {
+pub fn find_index_list<T: PartialEq>(v: &[T], target: &T) -> Vec<usize> {
     v.iter()
         .enumerate()
         .filter_map(|(index, item)| if *item == *target { Some(index) } else { None })
@@ -72,15 +74,61 @@ pub fn sort_slice<T: Copy + Debug>(slice: &[T], is_sorted_ascending: bool) -> Ve
     result
 }
 
-pub fn remove_slice<T: Copy>(slice: &[T], index_list: &[usize]) -> Vec<T> {
+pub fn remove_slice<T: Copy>(slice: &[T], remove_index_list: &[usize]) -> Vec<T> {
     //remove duplicate value in index_list
-    let mut unique_indices: Vec<usize> = index_list.to_vec();
+    let mut unique_indices: Vec<usize> = remove_index_list.to_vec();
     unique_indices.sort_unstable();
     unique_indices.dedup();
 
     let mut result = Vec::new();
     for (i, item) in slice.iter().enumerate() {
         if !unique_indices.contains(&i) {
+            result.push(*item);
+        }
+    }
+    result
+}
+
+pub fn unique_slice<T: Copy + PartialEq>(slice: &[T]) -> Vec<T> {
+    let mut result = Vec::new();
+    for item in slice.iter() {
+        if !result.contains(item) {
+            result.push(*item);
+        }
+    }
+    result
+}
+
+pub fn remove_duplicate_slice<T: Copy + PartialEq + Eq + Hash>(slice: &[T]) -> Vec<T> {
+    //if item is duplicate, remove all occurrence of item
+    let mut counts = HashMap::new();
+    for item in slice.iter() {
+        *counts.entry(item).or_insert(0) += 1;
+    }
+
+    let mut result = Vec::new();
+    for item in slice.iter() {
+        if let Some(&count) = counts.get(item)
+            && count == 1
+        {
+            result.push(*item);
+        }
+    }
+    result
+}
+
+pub fn keep_duplicate_slice<T: Copy + PartialEq + Eq + Hash>(slice: &[T]) -> Vec<T> {
+    //if item is duplicate, keep all occurrence of item and remove unique items
+    let mut counts = HashMap::new();
+    for item in slice.iter() {
+        *counts.entry(item).or_insert(0) += 1;
+    }
+
+    let mut result = Vec::new();
+    for item in slice.iter() {
+        if let Some(&count) = counts.get(item)
+            && count > 1
+        {
             result.push(*item);
         }
     }
@@ -102,9 +150,9 @@ pub fn mutate_reverse_slice<T: Copy>(slice: &mut [T]) {
     }
 }
 
-pub fn mutate_remove_slice<T: Copy>(slice: &mut Vec<T>, index_list: &[usize]) {
+pub fn mutate_remove_slice<T: Copy>(slice: &mut Vec<T>, remove_index_list: &[usize]) {
     //remove duplicate value in index_list
-    let mut unique_indices: Vec<usize> = index_list.to_vec();
+    let mut unique_indices: Vec<usize> = remove_index_list.to_vec();
     unique_indices.sort_unstable();
     unique_indices.dedup();
 
@@ -115,4 +163,53 @@ pub fn mutate_remove_slice<T: Copy>(slice: &mut Vec<T>, index_list: &[usize]) {
             slice.remove(index);
         }
     }
+}
+
+pub fn mutate_unique_slice<T: Copy + PartialEq>(slice: &mut Vec<T>) {
+    let mut result = Vec::new();
+    for item in slice.iter() {
+        if !result.contains(item) {
+            result.push(*item);
+        }
+    }
+
+    *slice = result;
+}
+
+pub fn mutate_remove_duplicate_slice<T: Copy + PartialEq + Eq + Hash>(slice: &mut Vec<T>) {
+    //if item is duplicate, remove all occurrence of item
+    let mut counts = HashMap::new();
+    for item in slice.iter() {
+        *counts.entry(item).or_insert(0) += 1;
+    }
+
+    let mut result = Vec::new();
+    for item in slice.iter() {
+        if let Some(&count) = counts.get(item)
+            && count == 1
+        {
+            result.push(*item);
+        }
+    }
+
+    *slice = result;
+}
+
+pub fn mutate_keep_duplicate_slice<T: Copy + PartialEq + Eq + Hash>(slice: &mut Vec<T>) {
+    //if item is duplicate, keep all occurrence of item and remove unique items
+    let mut counts = HashMap::new();
+    for item in slice.iter() {
+        *counts.entry(item).or_insert(0) += 1;
+    }
+
+    let mut result = Vec::new();
+    for item in slice.iter() {
+        if let Some(&count) = counts.get(item)
+            && count > 1
+        {
+            result.push(*item);
+        }
+    }
+
+    *slice = result;
 }
