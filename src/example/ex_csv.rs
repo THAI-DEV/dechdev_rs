@@ -1,6 +1,6 @@
 use crate::utils::csv::{
-    find_data, flatten_csv_row, is_found_data, read_csv_file, select_data_by_row_no, show_csv_data,
-    show_csv_size,
+    find_data, flatten_csv_data, is_found_data, read_csv_file, select_data_by_row_no,
+    show_csv_data, show_csv_size,
 };
 
 pub fn example_csv() {
@@ -12,7 +12,7 @@ pub fn example_csv() {
     println!("-----------------");
     select_data_by_row_no(&mut r, &[2]);
 
-    let rr = flatten_csv_row(&r);
+    let rr = flatten_csv_data(&r);
     println!("flatten {:?}", rr);
 
     // replace_data_at_column_no(

@@ -160,6 +160,71 @@ pub fn show_csv_size(records: &[Vec<String>]) -> (usize, usize) {
     (row_count, col_count)
 }
 
-pub fn flatten_csv_row(data: &[Vec<String>]) -> Vec<String> {
+pub fn flatten_csv_data(data: &[Vec<String>]) -> Vec<String> {
     data.iter().map(|row| row.join(",")).collect()
+}
+
+pub fn transpose_data(records: &mut Vec<Vec<String>>) {
+    let mut transposed = Vec::new();
+    let row_count = records.len();
+    if row_count > 0 {
+        records[0].len()
+    } else {
+        0
+    };
+
+    for col in records[0].iter().enumerate() {
+        let mut new_row = Vec::new();
+        for row in records.iter() {
+            new_row.push(row[col.0].clone());
+        }
+        transposed.push(new_row);
+    }
+
+    *records = transposed;
+}
+
+pub fn insert_data_before_row(
+    records: &mut Vec<Vec<String>>,
+    row_no: usize,
+    insert_data: Vec<String>,
+) {
+    if let Some(index) = row_no.checked_sub(1) {
+        if index <= records.len() {
+            records.insert(index, insert_data);
+        } else {
+            panic!("Row number {} is out of bounds", row_no);
+        }
+    } else {
+        panic!("Row number must be greater than 0");
+    }
+}
+
+pub fn insert_data_before_column(
+    records: &mut [Vec<String>],
+    column_no: usize,
+    insert_data: Vec<String>,
+) {
+    if records.len() != insert_data.len() {
+        panic!(
+            "insert_data length ({}) does not match number of rows ({})",
+            insert_data.len(),
+            records.len()
+        );
+    }
+
+    let index = column_no.checked_sub(1).unwrap_or_else(|| {
+        panic!("Column number must be greater than or equal to 1");
+    });
+
+    for (i, record) in records.iter_mut().enumerate() {
+        if index > record.len() {
+            panic!(
+                "Column number {} is out of bounds for row {}",
+                column_no,
+                i + 1
+            );
+        }
+        record.insert(index, insert_data[i].clone());
+    }
 }
