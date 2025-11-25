@@ -135,7 +135,7 @@ pub fn keep_duplicate_slice<T: Copy + PartialEq + Eq + Hash>(slice: &[T]) -> Vec
     result
 }
 
-pub fn mutate_sort_slice<T: Copy + Debug>(slice: &mut [T], is_sorted_ascending: bool) {
+pub fn sort_slice_mutably<T: Copy + Debug>(slice: &mut [T], is_sorted_ascending: bool) {
     if is_sorted_ascending {
         slice.sort_by(|a, b| format!("{:?}", a).cmp(&format!("{:?}", b)));
     } else {
@@ -143,14 +143,14 @@ pub fn mutate_sort_slice<T: Copy + Debug>(slice: &mut [T], is_sorted_ascending: 
     }
 }
 
-pub fn mutate_reverse_slice<T: Copy>(slice: &mut [T]) {
+pub fn reverse_slice_mutably<T: Copy>(slice: &mut [T]) {
     let len = slice.len();
     for i in 0..len / 2 {
         slice.swap(i, len - 1 - i);
     }
 }
 
-pub fn mutate_remove_slice<T: Copy>(slice: &mut Vec<T>, remove_index_list: &[usize]) {
+pub fn remove_slice_mutably<T: Copy>(slice: &mut Vec<T>, remove_index_list: &[usize]) {
     //remove duplicate value in index_list
     let mut unique_indices: Vec<usize> = remove_index_list.to_vec();
     unique_indices.sort_unstable();
@@ -165,7 +165,7 @@ pub fn mutate_remove_slice<T: Copy>(slice: &mut Vec<T>, remove_index_list: &[usi
     }
 }
 
-pub fn mutate_unique_slice<T: Copy + PartialEq>(slice: &mut Vec<T>) {
+pub fn unique_slice_mutably<T: Copy + PartialEq>(slice: &mut Vec<T>) {
     let mut result = Vec::new();
     for item in slice.iter() {
         if !result.contains(item) {
@@ -176,7 +176,7 @@ pub fn mutate_unique_slice<T: Copy + PartialEq>(slice: &mut Vec<T>) {
     *slice = result;
 }
 
-pub fn mutate_remove_duplicate_slice<T: Copy + PartialEq + Eq + Hash>(slice: &mut Vec<T>) {
+pub fn remove_duplicate_slice_mutably<T: Copy + PartialEq + Eq + Hash>(slice: &mut Vec<T>) {
     //if item is duplicate, remove all occurrence of item
     let mut counts = HashMap::new();
     for item in slice.iter() {
@@ -195,7 +195,7 @@ pub fn mutate_remove_duplicate_slice<T: Copy + PartialEq + Eq + Hash>(slice: &mu
     *slice = result;
 }
 
-pub fn mutate_keep_duplicate_slice<T: Copy + PartialEq + Eq + Hash>(slice: &mut Vec<T>) {
+pub fn keep_duplicate_slice_mutably<T: Copy + PartialEq + Eq + Hash>(slice: &mut Vec<T>) {
     //if item is duplicate, keep all occurrence of item and remove unique items
     let mut counts = HashMap::new();
     for item in slice.iter() {

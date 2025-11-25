@@ -1,8 +1,8 @@
 use crate::utils::slice::{
     combine_slice, difference_slice, find_index_list, intersect_slice, keep_duplicate_slice,
-    mutate_keep_duplicate_slice, mutate_remove_duplicate_slice, mutate_remove_slice,
-    mutate_reverse_slice, mutate_sort_slice, mutate_unique_slice, remove_duplicate_slice,
-    remove_slice, reverse_slice, sort_slice, union_slice, unique_slice,
+    keep_duplicate_slice_mutably, remove_duplicate_slice, remove_duplicate_slice_mutably,
+    remove_slice, remove_slice_mutably, reverse_slice, reverse_slice_mutably, sort_slice,
+    sort_slice_mutably, union_slice, unique_slice, unique_slice_mutably,
 };
 
 pub fn example_slice() {
@@ -39,14 +39,14 @@ pub fn example_slice() {
     println!("remove_slice : {:?}", r);
 
     let mut vex6 = ["f", "b", "c", "d", "a"];
-    mutate_reverse_slice(&mut vex6);
+    reverse_slice_mutably(&mut vex6);
     println!("mutate_reverse_slice : {:?}", vex6);
 
-    mutate_sort_slice(&mut vex6, true);
+    sort_slice_mutably(&mut vex6, true);
     println!("mutate_sort_slice : {:?}", vex6);
 
     let mut v4 = vec!["f", "b", "c", "d", "a"];
-    mutate_remove_slice(&mut v4, &[3, 1, 0]);
+    remove_slice_mutably(&mut v4, &[3, 1, 0]);
     println!("mutate_remove_slice : {:?}", v4);
 
     let vec7 = ["a", "b", "b", "d", "a"];
@@ -54,7 +54,7 @@ pub fn example_slice() {
     println!("unique_slice : {:?}", r);
 
     let mut v7 = vec!["a", "b", "b", "d", "a"];
-    mutate_unique_slice(&mut v7);
+    unique_slice_mutably(&mut v7);
     println!("mutate_unique_slice : {:?}", v7);
 
     let vec8 = ["a", "b", "b", "d", "a"];
@@ -62,7 +62,7 @@ pub fn example_slice() {
     println!("remove_duplicate_slice : {:?}", r);
 
     let mut v7 = vec!["a", "b", "b", "d", "a"];
-    mutate_remove_duplicate_slice(&mut v7);
+    remove_duplicate_slice_mutably(&mut v7);
     println!("mutate_remove_duplicate_slice : {:?}", v7);
 
     let vec9 = ["a", "b", "b", "d", "a"];
@@ -70,6 +70,6 @@ pub fn example_slice() {
     println!("keep_duplicate_slice : {:?}", r);
 
     let mut v7 = vec!["a", "b", "b", "d", "a"];
-    mutate_keep_duplicate_slice(&mut v7);
+    keep_duplicate_slice_mutably(&mut v7);
     println!("mutate_keep_duplicate_slice : {:?}", v7);
 }
