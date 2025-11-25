@@ -1,5 +1,6 @@
 use crate::utils::csv::{
-    find_data, flatten_csv_row, read_csv_file, select_data_by_row_no, show_csv_data, show_csv_size,
+    find_data, flatten_csv_row, is_found_data, read_csv_file, select_data_by_row_no, show_csv_data,
+    show_csv_size,
 };
 
 pub fn example_csv() {
@@ -39,6 +40,9 @@ pub fn example_csv() {
     let (_row_count, _col_count) = show_csv_size(&source);
     println!("Total Rows: {}, Total Columns: {}", _row_count, _col_count);
 
-    let found = find_data(&source, "b".to_string());
+    let found = is_found_data(&source, "b");
     println!("Data found: {}", found);
+
+    let result = find_data(&source, "b");
+    println!("Find results: {:?}", result);
 }

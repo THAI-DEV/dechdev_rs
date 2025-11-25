@@ -128,16 +128,29 @@ pub fn replace_data_at_column_no(
     }
 }
 
-pub fn find_data(records: &[Vec<String>], find_data: String) -> bool {
+pub fn is_found_data(records: &[Vec<String>], find_data: &str) -> bool {
     for record in records.iter() {
         for field in record.iter() {
-            if field == &find_data {
+            if field == find_data {
                 return true;
             }
         }
     }
 
     false
+}
+
+pub fn find_data(records: &[Vec<String>], find_data: &str) -> Vec<(usize, usize)> {
+    let mut results = Vec::new();
+    for (row_no, record) in records.iter().enumerate() {
+        for (col_no, field) in record.iter().enumerate() {
+            if field == find_data {
+                results.push((row_no + 1, col_no + 1)); // Store 1-based indices
+            }
+        }
+    }
+
+    results // Return all matches
 }
 
 pub fn show_csv_size(records: &[Vec<String>]) -> (usize, usize) {
