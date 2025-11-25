@@ -29,6 +29,8 @@ fn main() {
 
     // example::example_slice();
 
+    // example::example_csv();
+
     println!();
     println!("--- End ({:?}) ---", start_time.elapsed());
 }

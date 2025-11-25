@@ -2,6 +2,7 @@ pub mod argon2;
 pub mod bcrypt;
 pub mod crypto_aes;
 pub mod crypto_ase_gcm;
+pub mod csv;
 pub mod date_time;
 pub mod group;
 pub mod helper;
