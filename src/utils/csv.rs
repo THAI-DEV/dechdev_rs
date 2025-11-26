@@ -228,3 +228,21 @@ pub fn insert_data_before_column(
         record.insert(index, insert_data[i].clone());
     }
 }
+
+pub fn append_data_row(records: &mut Vec<Vec<String>>, append_data: Vec<String>) {
+    records.push(append_data);
+}
+
+pub fn append_data_column(records: &mut [Vec<String>], append_data: Vec<String>) {
+    if records.len() != append_data.len() {
+        panic!(
+            "append_data length ({}) does not match number of rows ({})",
+            append_data.len(),
+            records.len()
+        );
+    }
+
+    for (i, record) in records.iter_mut().enumerate() {
+        record.push(append_data[i].clone());
+    }
+}
