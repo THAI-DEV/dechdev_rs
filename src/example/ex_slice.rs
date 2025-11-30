@@ -1,8 +1,12 @@
-use crate::utils::slice::{
-    combine_slice, difference_slice, find_index_list, intersect_slice, keep_duplicate_slice,
-    keep_duplicate_slice_mutably, remove_duplicate_slice, remove_duplicate_slice_mutably,
-    remove_slice, remove_slice_mutably, reverse_slice, reverse_slice_mutably, sort_slice,
-    sort_slice_mutably, union_slice, unique_slice, unique_slice_mutably,
+use crate::utils::{
+    slice::{
+        combine_slice, difference_slice, find_index_list, intersect_slice, keep_duplicate_slice,
+        remove_duplicate_slice, remove_slice, reverse_slice, sort_slice, union_slice, unique_slice,
+    },
+    slice_mut::{
+        keep_duplicate_slice_mutably, remove_duplicate_slice_mutably, remove_slice_mutably,
+        reverse_slice_mutably, sort_slice_mutably, unique_slice_mutably,
+    },
 };
 
 pub fn example_slice() {
