@@ -1,7 +1,4 @@
-use crate::utils::csv::{
-    append_data_column, append_data_row, insert_data_before_column, insert_data_before_row,
-    show_csv_data,
-};
+use crate::utils::csv::{append_data_column, show_csv_data};
 
 pub fn example_csv() {
     println!("example_csv_mut");
