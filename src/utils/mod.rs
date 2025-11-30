@@ -3,6 +3,7 @@ pub mod bcrypt;
 pub mod crypto_aes;
 pub mod crypto_ase_gcm;
 pub mod csv;
+pub mod csv_mut;
 pub mod date_time;
 pub mod group;
 pub mod helper;
