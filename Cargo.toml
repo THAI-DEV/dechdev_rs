@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/THAI-DEV/dechdev_rs"
 
 [dev-dependencies]
-pretty_assertions = "1.0.0"
+pretty_assertions = "1.4.1"
 
 [[test]]
 name = "test_1"
@@ -19,13 +19,13 @@ name = "test_2"
 path = "tests/utils/util/string/to_camel_case_test.rs"
 
 [dependencies]
-aes = "0.8"
-aes-gcm = "0.10"
+aes = "0.8.4"
+aes-gcm = "0.10.3"
 argon2 = "0.5.3"
-base64 = "0.22"
+base64 = "0.22.1"
 bcrypt = "0.17.1"
 csv = "1.4.0"
-hex = "0.4"
+hex = "0.4.3"
 password-hash = "0.5.0"
 rand = "0.9.2"
 rand_core = { version = "0.9.3", features = ["std"] }
