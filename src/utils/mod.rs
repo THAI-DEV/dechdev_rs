@@ -12,3 +12,4 @@ pub mod random;
 pub mod slice;
 pub mod slice_mut;
 pub mod string;
+pub mod util;
