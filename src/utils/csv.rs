@@ -68,6 +68,21 @@ pub fn find_data(records: &[Vec<String>], find_data: &str) -> Vec<(usize, usize)
     results // Return all matches
 }
 
+pub fn retrieve_data_by_position(records: &[Vec<String>], row: usize, column: usize) -> String {
+    if row == 0 || column == 0 {
+        panic!("Row and column indices must be 1 or greater");
+    }
+    records[row - 1][column - 1].clone()
+}
+
+pub fn retrieve_data_by_index(
+    records: &[Vec<String>],
+    row_index: usize,
+    column_index: usize,
+) -> String {
+    records[row_index][column_index].clone()
+}
+
 pub fn show_csv_size(records: &[Vec<String>]) -> (usize, usize) {
     let row_count = records.len();
     let col_count = if row_count > 0 { records[0].len() } else { 0 };
