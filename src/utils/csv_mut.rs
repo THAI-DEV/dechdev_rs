@@ -84,6 +84,34 @@ pub fn replace_data_at_column_no_mutably(
     }
 }
 
+pub fn replace_data_at_position_mutably(
+    records: &mut [Vec<String>],
+    row_no: usize,
+    column_no: usize,
+    replace_data: &str,
+) {
+    let index = row_no - 1;
+    if index < records.len() {
+        records[index][column_no - 1] = replace_data.to_string();
+    } else {
+        panic!("Index {} out of bounds", row_no);
+    }
+}
+
+pub fn replace_data_at_index_mutably(
+    records: &mut [Vec<String>],
+    row_index: usize,
+    column_index: usize,
+    replace_data: &str,
+) {
+    let index = row_index;
+    if index < records.len() {
+        records[index][column_index] = replace_data.to_string();
+    } else {
+        panic!("Index {} out of bounds", row_index);
+    }
+}
+
 pub fn transpose_data_mutably(records: &mut Vec<Vec<String>>) {
     let mut transposed = Vec::new();
     let row_count = records.len();

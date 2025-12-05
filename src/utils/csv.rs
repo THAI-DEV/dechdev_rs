@@ -68,11 +68,15 @@ pub fn find_data(records: &[Vec<String>], find_data: &str) -> Vec<(usize, usize)
     results // Return all matches
 }
 
-pub fn retrieve_data_by_position(records: &[Vec<String>], row: usize, column: usize) -> String {
-    if row == 0 || column == 0 {
+pub fn retrieve_data_by_position(
+    records: &[Vec<String>],
+    row_no: usize,
+    column_no: usize,
+) -> String {
+    if row_no == 0 || column_no == 0 {
         panic!("Row and column indices must be 1 or greater");
     }
-    records[row - 1][column - 1].clone()
+    records[row_no - 1][column_no - 1].clone()
 }
 
 pub fn retrieve_data_by_index(
