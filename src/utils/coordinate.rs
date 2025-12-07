@@ -1,10 +1,10 @@
-pub fn coordinate_index_all(
+pub fn all_index(
     row_index: usize,
     column_index: usize,
     max_row_index: usize,
     max_column_index: usize,
     step: usize,
-) -> CoordinateIndexType {
+) -> CoordinateIndexStruct {
     // Example Grid: 3x10
     // 00 01 02 03 04 05 06 07 08 09
     // 10 11 12 13 14 15 16 17 18 19
@@ -12,87 +12,91 @@ pub fn coordinate_index_all(
 
     //* Right
     let mut temp_row = row_index as i32;
-    let mut temp_col = column_index as i32 + step as i32;
+    let mut temp_column = column_index as i32 + step as i32;
 
-    if temp_col > max_column_index as i32 {
-        temp_col = -1;
+    if temp_column > max_column_index as i32 {
+        temp_row = -1;
+        temp_column = -1;
     }
 
-    let right = (temp_row, temp_col);
+    let right = (temp_row, temp_column);
     //* Right
 
     //* Left
     temp_row = row_index as i32;
-    temp_col = column_index as i32 - 1;
-    if temp_col < 0 {
-        temp_col = -1;
+    temp_column = column_index as i32 - 1;
+    if temp_column < 0 {
+        temp_row = -1;
+        temp_column = -1;
     }
 
-    let left = (temp_row, temp_col);
+    let left = (temp_row, temp_column);
     //* Left
 
     //* Down
     temp_row = row_index as i32 + 1;
-    temp_col = column_index as i32;
+    temp_column = column_index as i32;
 
     if temp_row > max_row_index as i32 {
         temp_row = -1;
+        temp_column = -1;
     }
 
-    let down = (temp_row, temp_col);
+    let down = (temp_row, temp_column);
     //* Down
 
     //* Up
     temp_row = row_index as i32 - 1;
-    temp_col = column_index as i32;
+    temp_column = column_index as i32;
     if temp_row < 0 {
         temp_row = -1;
+        temp_column = -1;
     }
 
-    let up = (temp_row, temp_col);
+    let up = (temp_row, temp_column);
     //* Up
 
     //* Right Up
     temp_row = row_index as i32 - 1;
-    temp_col = column_index as i32 + 1;
-    if temp_row < 0 || temp_col > max_column_index as i32 {
+    temp_column = column_index as i32 + 1;
+    if temp_row < 0 || temp_column > max_column_index as i32 {
         temp_row = -1;
-        temp_col = -1;
+        temp_column = -1;
     }
 
-    let right_up = (temp_row, temp_col);
+    let right_up = (temp_row, temp_column);
     //* Right Up
 
     //* Right Down
     temp_row = row_index as i32 + 1;
-    temp_col = column_index as i32 + 1;
-    if temp_row > max_row_index as i32 || temp_col > max_column_index as i32 {
+    temp_column = column_index as i32 + 1;
+    if temp_row > max_row_index as i32 || temp_column > max_column_index as i32 {
         temp_row = -1;
-        temp_col = -1;
+        temp_column = -1;
     }
 
-    let right_down = (temp_row, temp_col);
+    let right_down = (temp_row, temp_column);
     //* Right Down
 
     //* Left Up
     temp_row = row_index as i32 - 1;
-    temp_col = column_index as i32 - 1;
-    if temp_row < 0 || temp_col < 0 {
+    temp_column = column_index as i32 - 1;
+    if temp_row < 0 || temp_column < 0 {
         temp_row = -1;
-        temp_col = -1;
+        temp_column = -1;
     }
 
-    let left_up = (temp_row, temp_col);
+    let left_up = (temp_row, temp_column);
     //* Left Up
 
     //* Left Down
     temp_row = row_index as i32 + 1;
-    temp_col = column_index as i32 - 1;
-    if temp_row > max_row_index as i32 || temp_col < 0 {
+    temp_column = column_index as i32 - 1;
+    if temp_row > max_row_index as i32 || temp_column < 0 {
         temp_row = -1;
-        temp_col = -1;
+        temp_column = -1;
     }
-    let left_down = (temp_row, temp_col);
+    let left_down = (temp_row, temp_column);
     //* Left Down
 
     // println!("right: {:?}, left: {:?}", right, left);
@@ -100,7 +104,7 @@ pub fn coordinate_index_all(
     // println!("right_up: {:?}, right_down: {:?}", right_up, right_down);
     // println!("left_up: {:?}, left_down: {:?}", left_up, left_down);
 
-    CoordinateIndexType {
+    CoordinateIndexStruct {
         right,
         left,
         down,
@@ -112,36 +116,38 @@ pub fn coordinate_index_all(
     }
 }
 
-pub fn coordinate_index_right(
+pub fn right_index(
     row_index: usize,
     column_index: usize,
     max_column_index: usize,
     step: usize,
 ) -> (i32, i32) {
     //* Right
-    let temp_row = row_index as i32;
-    let mut temp_col = column_index as i32 + step as i32;
+    let mut temp_row = row_index as i32;
+    let mut temp_column = column_index as i32 + step as i32;
 
-    if temp_col > max_column_index as i32 {
-        temp_col = -1;
+    if temp_column > max_column_index as i32 {
+        temp_row = -1;
+        temp_column = -1;
     }
 
-    (temp_row, temp_col)
+    (temp_row, temp_column)
 }
 
-pub fn coordinate_index_left(row_index: usize, column_index: usize, step: usize) -> (i32, i32) {
+pub fn left_index(row_index: usize, column_index: usize, step: usize) -> (i32, i32) {
     //* Left
-    let temp_row = row_index as i32;
-    let mut temp_col = column_index as i32 - step as i32;
-    if temp_col < 0 {
-        temp_col = -1;
+    let mut temp_row = row_index as i32;
+    let mut temp_column = column_index as i32 - step as i32;
+    if temp_column < 0 {
+        temp_row = -1;
+        temp_column = -1;
     }
 
-    (temp_row, temp_col)
+    (temp_row, temp_column)
     //* Left
 }
 
-pub fn coordination_index_down(
+pub fn down_index(
     row_index: usize,
     column_index: usize,
     max_row_index: usize,
@@ -149,29 +155,31 @@ pub fn coordination_index_down(
 ) -> (i32, i32) {
     //* Down
     let mut temp_row = row_index as i32 + step as i32;
-    let temp_col = column_index as i32;
+    let mut temp_column = column_index as i32;
 
     if temp_row > max_row_index as i32 {
         temp_row = -1;
+        temp_column = -1;
     }
 
-    (temp_row, temp_col)
+    (temp_row, temp_column)
     //* Down
 }
 
-pub fn coordination_index_up(row_index: usize, column_index: usize, step: usize) -> (i32, i32) {
+pub fn up_index(row_index: usize, column_index: usize, step: usize) -> (i32, i32) {
     //* Up
     let mut temp_row = row_index as i32 - step as i32;
-    let temp_col = column_index as i32;
+    let mut temp_column = column_index as i32;
     if temp_row < 0 {
         temp_row = -1;
+        temp_column = -1;
     }
 
-    (temp_row, temp_col)
+    (temp_row, temp_column)
     //* Up
 }
 
-pub fn coordination_index_right_up(
+pub fn right_up_index(
     row_index: usize,
     column_index: usize,
     max_column_index: usize,
@@ -179,17 +187,17 @@ pub fn coordination_index_right_up(
 ) -> (i32, i32) {
     //* Right Up
     let mut temp_row = row_index as i32 - step as i32;
-    let mut temp_col = column_index as i32 + step as i32;
-    if temp_row < 0 || temp_col > max_column_index as i32 {
+    let mut temp_column = column_index as i32 + step as i32;
+    if temp_row < 0 || temp_column > max_column_index as i32 {
         temp_row = -1;
-        temp_col = -1;
+        temp_column = -1;
     }
 
-    (temp_row, temp_col)
+    (temp_row, temp_column)
     //* Right Up
 }
 
-pub fn coordination_index_right_down(
+pub fn right_down_index(
     row_index: usize,
     column_index: usize,
     max_column_index: usize,
@@ -198,34 +206,32 @@ pub fn coordination_index_right_down(
 ) -> (i32, i32) {
     //* Right Down
     let mut temp_row = row_index as i32 + step as i32;
-    let mut temp_col = column_index as i32 + step as i32;
-    if temp_row > max_row_index as i32 || temp_col > max_column_index as i32 {
+    let mut temp_column = column_index as i32 + step as i32;
+
+    if temp_row > max_row_index as i32 || temp_column > max_column_index as i32 {
         temp_row = -1;
-        temp_col = -1;
+        temp_column = -1;
     }
 
-    (temp_row, temp_col)
+    (temp_row, temp_column)
     //* Right Down
 }
 
-pub fn coordination_index_left_up(
-    row_index: usize,
-    column_index: usize,
-    step: usize,
-) -> (i32, i32) {
+pub fn left_up_index(row_index: usize, column_index: usize, step: usize) -> (i32, i32) {
     //* Left Up
     let mut temp_row = row_index as i32 - step as i32;
-    let mut temp_col = column_index as i32 - step as i32;
-    if temp_row < 0 || temp_col < 0 {
+    let mut temp_column = column_index as i32 - step as i32;
+
+    if temp_row < 0 || temp_column < 0 {
         temp_row = -1;
-        temp_col = -1;
+        temp_column = -1;
     }
 
-    (temp_row, temp_col)
+    (temp_row, temp_column)
     //* Left Up
 }
 
-pub fn coordination_index_left_down(
+pub fn left_down_index(
     row_index: usize,
     column_index: usize,
     max_row_index: usize,
@@ -233,17 +239,17 @@ pub fn coordination_index_left_down(
 ) -> (i32, i32) {
     //* Left Down
     let mut temp_row = row_index as i32 + step as i32;
-    let mut temp_col = column_index as i32 - step as i32;
-    if temp_row > max_row_index as i32 || temp_col < 0 {
+    let mut temp_column = column_index as i32 - step as i32;
+    if temp_row > max_row_index as i32 || temp_column < 0 {
         temp_row = -1;
-        temp_col = -1;
+        temp_column = -1;
     }
-    (temp_row, temp_col)
+    (temp_row, temp_column)
     //* Left Down
 }
 
 #[derive(Debug)]
-pub struct CoordinateIndexType {
+pub struct CoordinateIndexStruct {
     pub right: (i32, i32),
     pub left: (i32, i32),
     pub down: (i32, i32),

@@ -1,6 +1,6 @@
 [package]
 name = "dechdev_rs"
-version = "0.1.35"
+version = "0.1.36"
 edition = "2024"
 authors = ["Ruangdech  Kurunat"]
 description = "A Rust library by DECHDEV."
