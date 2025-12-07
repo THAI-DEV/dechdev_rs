@@ -196,6 +196,12 @@ pub fn append_data_column_mutably(records: &mut [Vec<String>], append_data: Vec<
 }
 
 pub fn convert_string_data_to_csv_data_mutably(data: &mut Vec<Vec<String>>) {
+    /*
+       123 328   51  64
+        45  64  387  23
+         6  98  215 314
+    */
+
     let mut result: Vec<Vec<String>> = Vec::new();
 
     for row in data.iter() {
