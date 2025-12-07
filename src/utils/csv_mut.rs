@@ -194,3 +194,17 @@ pub fn append_data_column_mutably(records: &mut [Vec<String>], append_data: Vec<
         record.push(append_data[i].clone());
     }
 }
+
+pub fn convert_string_data_to_csv_data_mutably(data: &mut Vec<Vec<String>>) {
+    let mut result: Vec<Vec<String>> = Vec::new();
+
+    for row in data.iter() {
+        for val in row.iter() {
+            let p: Vec<&str> = val.split_whitespace().collect();
+
+            result.push(p.into_iter().map(|s| s.to_string()).collect());
+        }
+    }
+
+    *data = result;
+}

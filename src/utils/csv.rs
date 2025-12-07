@@ -299,3 +299,17 @@ pub fn append_data_column(records: &[Vec<String>], append_data: &[String]) -> Ve
 pub fn flatten_csv_data(data: &[Vec<String>]) -> Vec<String> {
     data.iter().map(|row| row.join(",")).collect()
 }
+
+pub fn convert_string_data_to_csv_data(data: &[Vec<String>]) -> Vec<Vec<String>> {
+    let mut result: Vec<Vec<String>> = Vec::new();
+
+    for row in data.iter() {
+        for val in row.iter() {
+            let p: Vec<&str> = val.split_whitespace().collect();
+
+            result.push(p.into_iter().map(|s| s.to_string()).collect());
+        }
+    }
+
+    result
+}

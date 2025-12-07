@@ -1,6 +1,7 @@
 pub mod argon2;
 pub mod base64;
 pub mod bcrypt;
+pub mod coordinate;
 pub mod crypto_aes;
 pub mod crypto_ase_gcm;
 pub mod csv;
