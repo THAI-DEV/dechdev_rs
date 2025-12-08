@@ -119,6 +119,7 @@ pub fn all_index(
 pub fn right_index(
     row_index: usize,
     column_index: usize,
+    _max_row_index: usize,
     max_column_index: usize,
     step: usize,
 ) -> (i32, i32) {
@@ -134,7 +135,13 @@ pub fn right_index(
     (temp_row, temp_column)
 }
 
-pub fn left_index(row_index: usize, column_index: usize, step: usize) -> (i32, i32) {
+pub fn left_index(
+    row_index: usize,
+    column_index: usize,
+    _max_row_index: usize,
+    _max_column_index: usize,
+    step: usize,
+) -> (i32, i32) {
     //* Left
     let mut temp_row = row_index as i32;
     let mut temp_column = column_index as i32 - step as i32;
@@ -151,6 +158,7 @@ pub fn down_index(
     row_index: usize,
     column_index: usize,
     max_row_index: usize,
+    _max_column_index: usize,
     step: usize,
 ) -> (i32, i32) {
     //* Down
@@ -166,7 +174,13 @@ pub fn down_index(
     //* Down
 }
 
-pub fn up_index(row_index: usize, column_index: usize, step: usize) -> (i32, i32) {
+pub fn up_index(
+    row_index: usize,
+    column_index: usize,
+    _max_row_index: usize,
+    _max_column_index: usize,
+    step: usize,
+) -> (i32, i32) {
     //* Up
     let mut temp_row = row_index as i32 - step as i32;
     let mut temp_column = column_index as i32;
@@ -182,6 +196,7 @@ pub fn up_index(row_index: usize, column_index: usize, step: usize) -> (i32, i32
 pub fn right_up_index(
     row_index: usize,
     column_index: usize,
+    _max_row_index: usize,
     max_column_index: usize,
     step: usize,
 ) -> (i32, i32) {
@@ -200,8 +215,8 @@ pub fn right_up_index(
 pub fn right_down_index(
     row_index: usize,
     column_index: usize,
-    max_column_index: usize,
     max_row_index: usize,
+    max_column_index: usize,
     step: usize,
 ) -> (i32, i32) {
     //* Right Down
@@ -217,7 +232,13 @@ pub fn right_down_index(
     //* Right Down
 }
 
-pub fn left_up_index(row_index: usize, column_index: usize, step: usize) -> (i32, i32) {
+pub fn left_up_index(
+    row_index: usize,
+    column_index: usize,
+    _max_row_index: usize,
+    _max_column_index: usize,
+    step: usize,
+) -> (i32, i32) {
     //* Left Up
     let mut temp_row = row_index as i32 - step as i32;
     let mut temp_column = column_index as i32 - step as i32;
@@ -235,6 +256,7 @@ pub fn left_down_index(
     row_index: usize,
     column_index: usize,
     max_row_index: usize,
+    _max_column_index: usize,
     step: usize,
 ) -> (i32, i32) {
     //* Left Down

@@ -1,8 +1,6 @@
-use crate::utils::{
-    csv::{
-        find_data, flatten_csv_data, is_found_data, read_csv_file, show_csv_data, show_csv_size,
-    },
-    csv_mut::select_data_by_row_no_mutably,
+use crate::utils::csv::{
+    find_data, flatten_csv_data, is_found_data, read_csv_file, select_data_by_row_no_mutably,
+    show_csv_data, show_csv_size,
 };
 
 pub fn example_csv_mut() {
