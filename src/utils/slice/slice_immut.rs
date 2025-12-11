@@ -2,46 +2,47 @@ use std::collections::HashMap;
 use std::fmt::Debug;
 use std::hash::Hash;
 
-pub fn union_slice<T: PartialEq + Clone>(slice1: &[T], slice2: &[T]) -> Vec<T> {
+pub fn union_slice<T: PartialEq + Copy>(slice1: &[T], slice2: &[T]) -> Vec<T> {
     let mut result = Vec::new();
 
-    for item in slice1 {
-        if !result.contains(item) {
-            result.push(item.clone());
+    for &item in slice1 {
+        if !result.contains(&item) {
+            result.push(item);
         }
     }
-    for item in slice2 {
-        if !result.contains(item) {
-            result.push(item.clone());
+    for &item in slice2 {
+        if !result.contains(&item) {
+            result.push(item);
         }
     }
 
     result
 }
 
-pub fn intersect_slice<T: PartialEq + Clone>(slice1: &[T], slice2: &[T]) -> Vec<T> {
+pub fn intersect_slice<T: PartialEq + Copy>(slice1: &[T], slice2: &[T]) -> Vec<T> {
     let mut result = Vec::new();
-    for item in slice1 {
-        if slice2.contains(item) && !result.contains(item) {
-            result.push(item.clone());
+    for &item in slice1 {
+        if slice2.contains(&item) && !result.contains(&item) {
+            result.push(item);
         }
     }
     result
 }
 
-pub fn difference_slice<T: PartialEq + Clone>(slice1: &[T], slice2: &[T]) -> Vec<T> {
+pub fn difference_slice<T: PartialEq + Copy>(slice1: &[T], slice2: &[T]) -> Vec<T> {
     let mut result = Vec::new();
-    for item in slice1 {
-        if !slice2.contains(item) {
-            result.push(item.clone());
+    for &item in slice1 {
+        if !slice2.contains(&item) {
+            result.push(item);
         }
     }
 
     result
 }
 
-pub fn combine_slice<T: Clone>(slice1: &[T], slice2: &[T]) -> Vec<T> {
-    let mut result = slice1.to_vec();
+pub fn combine_slice<T: Copy>(slice1: &[T], slice2: &[T]) -> Vec<T> {
+    let mut result = Vec::with_capacity(slice1.len() + slice2.len());
+    result.extend_from_slice(slice1);
     result.extend_from_slice(slice2);
 
     result

@@ -27,9 +27,9 @@ fn main() {
     // example::example_calculate_group();
     // example::example_arrange_group();
 
-    // example::example_slice();
+    example::example_slice();
 
-    example::example_csv_mut();
+    // example::example_csv_mut();
     // example::example_csv_immut();
 
     println!();
