@@ -32,6 +32,8 @@ fn main() {
     // example::example_csv_mut();
     // example::example_csv_immut();
 
+    // example::example_group();
+
     println!();
     println!("--- End ({:?}) ---", start_time.elapsed());
 }

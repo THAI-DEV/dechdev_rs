@@ -120,12 +120,9 @@ pub fn arrange_group_as_separate(
         let mut ind = 0;
 
         for _ in 0..group_num {
-            let mut parts: Vec<String> = Vec::new();
-            for _ in 0..member_in_group {
-                parts.push(input_slice[ind].clone());
-                ind += 1;
-            }
-            result_list.push(parts.join(" , "));
+            let parts = input_slice[ind..ind + member_in_group].join(" , ");
+            result_list.push(parts);
+            ind += member_in_group;
         }
 
         if beyond_member > 0 {
@@ -145,16 +142,21 @@ pub fn arrange_group_as_separate(
             let mut ind = 0;
 
             for r in &result_list {
-                // count items by splitting on comma
-                let list: Vec<&str> = r.split(',').collect();
-                let mut parts: Vec<String> = Vec::new();
-                for _ in 0..list.len() {
-                    if ind < input_slice.len() {
-                        parts.push(input_slice[ind].clone());
-                        ind += 1;
-                    }
-                }
-                new_result_list.push(parts.join(" , "));
+                let list: Vec<&str> = r.split(',').map(|s| s.trim()).collect();
+                let parts = list
+                    .iter()
+                    .filter_map(|_| {
+                        if ind < input_slice.len() {
+                            let item = &input_slice[ind];
+                            ind += 1;
+                            Some(item.as_str())
+                        } else {
+                            None
+                        }
+                    })
+                    .collect::<Vec<&str>>()
+                    .join(" , ");
+                new_result_list.push(parts);
             }
 
             result_list = new_result_list;
@@ -173,11 +175,11 @@ pub fn arrange_group_as_distribute(input_slice: &[String], mut group_num: usize)
                  group2 = 02 , 04 , 06 , 08
     */
 
-    let mut result_list: Vec<String> = Vec::new();
-
     if group_num > input_slice.len() {
         group_num = input_slice.len();
     }
+
+    let mut result_list: Vec<String> = Vec::new();
 
     if group_num == 0 || input_slice.len() < group_num {
         return result_list;
@@ -185,13 +187,11 @@ pub fn arrange_group_as_distribute(input_slice: &[String], mut group_num: usize)
 
     let mut ind = 0usize;
 
-    // initialize groups with the first `group_num` elements
     for _ in 0..group_num {
-        result_list.push(input_slice[ind].clone());
+        result_list.push(input_slice[ind].to_string());
         ind += 1;
     }
 
-    // distribute remaining elements round-robin, concatenating with " , "
     for _ in 0..input_slice.len() {
         for result in result_list.iter_mut() {
             if ind == input_slice.len() {
