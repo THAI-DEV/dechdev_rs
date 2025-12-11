@@ -270,7 +270,7 @@ pub fn insert_data_before_column(
         .enumerate()
         .map(|(i, record)| {
             if index > record.len() {
-                panic!(
+                println!(
                     "Column number {} is out of bounds for row {}",
                     column_no,
                     i + 1

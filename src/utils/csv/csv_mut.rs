@@ -20,7 +20,7 @@ pub fn remove_data_by_column_no_mutably(records: &mut [Vec<String>], column_no_l
             if col_no < record.len() {
                 record.remove(col_no);
             } else {
-                panic!("Index {} out of bounds", col_no + 1);
+                println!("Index {} out of bounds", col_no + 1);
             }
         }
     }
@@ -73,12 +73,14 @@ pub fn replace_data_at_row_no_mutably(
 pub fn replace_data_at_column_no_mutably(
     records: &mut [Vec<String>],
     column_no: usize,
-    replace_data: Vec<String>,
+    mut replace_data: Vec<String>,
 ) {
     let index = column_no - 1;
     for (i, record) in records.iter_mut().enumerate() {
         if index < record.len() {
-            record[index] = replace_data[i].clone();
+            if let Some(value) = replace_data.get_mut(i) {
+                record[index] = std::mem::take(value);
+            }
         } else {
             println!("Index {} out of bounds", column_no);
         }
