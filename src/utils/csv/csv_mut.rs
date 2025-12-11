@@ -6,7 +6,7 @@ pub fn remove_data_by_row_no_mutably(records: &mut Vec<Vec<String>>, row_no_list
         if row_no < records.len() {
             records.remove(row_no);
         } else {
-            panic!("Index {} out of bounds", row_no + 1);
+            println!("Index {} out of bounds", row_no + 1);
         }
     }
 }
@@ -31,9 +31,10 @@ pub fn select_data_by_row_no_mutably(records: &mut Vec<Vec<String>>, row_no_list
     for &row_no in row_no_list {
         let index = row_no - 1;
         if index < records.len() {
-            selected_records.push(records[index].clone());
+            let record = std::mem::take(&mut records[index]);
+            selected_records.push(record);
         } else {
-            panic!("Index {} out of bounds", row_no);
+            println!("Index {} out of bounds", row_no);
         }
     }
     *records = selected_records;
@@ -41,14 +42,14 @@ pub fn select_data_by_row_no_mutably(records: &mut Vec<Vec<String>>, row_no_list
 
 pub fn select_data_by_column_no_mutably(records: &mut Vec<Vec<String>>, column_no_list: &[usize]) {
     let mut selected_records = Vec::new();
-    for record in records.iter() {
+    for record in records.iter_mut() {
         let mut selected_row = Vec::new();
         for &col_no in column_no_list {
             let index = col_no - 1;
             if index < record.len() {
-                selected_row.push(record[index].clone());
+                selected_row.push(std::mem::take(&mut record[index]));
             } else {
-                panic!("Index {} out of bounds", col_no);
+                println!("Index {} out of bounds", col_no);
             }
         }
         selected_records.push(selected_row);
@@ -65,7 +66,7 @@ pub fn replace_data_at_row_no_mutably(
     if index < records.len() {
         records[index] = replace_data;
     } else {
-        panic!("Index {} out of bounds", row_no);
+        println!("Index {} out of bounds", row_no);
     }
 }
 
@@ -79,7 +80,7 @@ pub fn replace_data_at_column_no_mutably(
         if index < record.len() {
             record[index] = replace_data[i].clone();
         } else {
-            panic!("Index {} out of bounds", column_no);
+            println!("Index {} out of bounds", column_no);
         }
     }
 }
@@ -94,7 +95,7 @@ pub fn replace_data_at_position_mutably(
     if index < records.len() {
         records[index][column_no - 1] = replace_data.to_string();
     } else {
-        panic!("Index {} out of bounds", row_no);
+        println!("Index {} out of bounds", row_no);
     }
 }
 
@@ -108,25 +109,20 @@ pub fn replace_data_at_index_mutably(
     if index < records.len() {
         records[index][column_index] = replace_data.to_string();
     } else {
-        panic!("Index {} out of bounds", row_index);
+        println!("Index {} out of bounds", row_index);
     }
 }
 
 pub fn transpose_data_mutably(records: &mut Vec<Vec<String>>) {
-    let mut transposed = Vec::new();
     let row_count = records.len();
-    if row_count > 0 {
-        records[0].len()
-    } else {
-        0
-    };
+    let col_count = if row_count > 0 { records[0].len() } else { 0 };
 
-    for col in records[0].iter().enumerate() {
-        let mut new_row = Vec::new();
-        for row in records.iter() {
-            new_row.push(row[col.0].clone());
+    let mut transposed = vec![Vec::with_capacity(row_count); col_count];
+
+    for row in records.iter_mut() {
+        for (col_index, value) in row.drain(..).enumerate() {
+            transposed[col_index].push(value);
         }
-        transposed.push(new_row);
     }
 
     *records = transposed;
@@ -141,20 +137,20 @@ pub fn insert_data_before_row_mutably(
         if index <= records.len() {
             records.insert(index, insert_data);
         } else {
-            panic!("Row number {} is out of bounds", row_no);
+            println!("Row number {} is out of bounds", row_no);
         }
     } else {
-        panic!("Row number must be greater than 0");
+        println!("Row number must be greater than 0");
     }
 }
 
 pub fn insert_data_before_column_mutably(
     records: &mut [Vec<String>],
     column_no: usize,
-    insert_data: Vec<String>,
+    mut insert_data: Vec<String>,
 ) {
     if records.len() != insert_data.len() {
-        panic!(
+        println!(
             "insert_data length ({}) does not match number of rows ({})",
             insert_data.len(),
             records.len()
@@ -162,18 +158,21 @@ pub fn insert_data_before_column_mutably(
     }
 
     let index = column_no.checked_sub(1).unwrap_or_else(|| {
-        panic!("Column number must be greater than or equal to 1");
+        println!("Column number must be greater than or equal to 1");
+        0
     });
 
     for (i, record) in records.iter_mut().enumerate() {
         if index > record.len() {
-            panic!(
+            println!(
                 "Column number {} is out of bounds for row {}",
                 column_no,
                 i + 1
             );
         }
-        record.insert(index, insert_data[i].clone());
+        if let Some(value) = insert_data.get_mut(i) {
+            record.insert(index, std::mem::take(value));
+        }
     }
 }
 
@@ -181,9 +180,9 @@ pub fn append_data_row_mutably(records: &mut Vec<Vec<String>>, append_data: Vec<
     records.push(append_data);
 }
 
-pub fn append_data_column_mutably(records: &mut [Vec<String>], append_data: Vec<String>) {
+pub fn append_data_column_mutably(records: &mut [Vec<String>], mut append_data: Vec<String>) {
     if records.len() != append_data.len() {
-        panic!(
+        println!(
             "append_data length ({}) does not match number of rows ({})",
             append_data.len(),
             records.len()
@@ -191,7 +190,9 @@ pub fn append_data_column_mutably(records: &mut [Vec<String>], append_data: Vec<
     }
 
     for (i, record) in records.iter_mut().enumerate() {
-        record.push(append_data[i].clone());
+        if let Some(value) = append_data.get_mut(i) {
+            record.push(std::mem::take(value));
+        }
     }
 }
 

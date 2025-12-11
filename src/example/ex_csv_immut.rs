@@ -1,7 +1,7 @@
-use crate::utils::csv::{append_data_column, show_csv_data};
+use crate::utils::csv::{insert_data_before_column, show_csv_data};
 
-pub fn example_csv() {
-    println!("example_csv_mut");
+pub fn example_csv_immut() {
+    println!("example_csv_immut");
 
     let v1 = vec![
         vec![
@@ -40,6 +40,9 @@ pub fn example_csv() {
     show_csv_data(&v1);
     println!("------------------");
 
-    let vv = append_data_column(&v1, &v2);
-    show_csv_data(&vv);
+    let result = insert_data_before_column(&v1, 4, &v2);
+
+    //let result = append_data_row(&v1, &v2);
+    // let result = append_data_column(&v1, &v2);
+    show_csv_data(&result);
 }

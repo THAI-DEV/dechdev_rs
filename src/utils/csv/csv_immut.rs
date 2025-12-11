@@ -74,9 +74,11 @@ pub fn retrieve_data_by_position(
     column_no: usize,
 ) -> String {
     if row_no == 0 || column_no == 0 {
-        panic!("Row and column indices must be 1 or greater");
+        println!("Row and column indices must be 1 or greater");
+        return String::new();
     }
-    records[row_no - 1][column_no - 1].clone()
+
+    records[row_no - 1][column_no - 1].to_string()
 }
 
 pub fn retrieve_data_by_index(
@@ -84,7 +86,12 @@ pub fn retrieve_data_by_index(
     row_index: usize,
     column_index: usize,
 ) -> String {
-    records[row_index][column_index].clone()
+    if row_index >= records.len() || column_index >= records[0].len() {
+        println!("Row and column indices must be within the valid range");
+        return String::new();
+    }
+
+    records[row_index][column_index].to_string()
 }
 
 pub fn show_csv_size(records: &[Vec<String>]) -> (usize, usize) {
@@ -100,10 +107,11 @@ pub fn remove_data_by_row_no(records: &[Vec<String>], row_no_list: &[usize]) -> 
 
     let mut new_records = records.to_vec();
     for &row_no in &row_no_list {
-        if row_no < new_records.len() {
+        if row_no < records.len() {
             new_records.remove(row_no);
         } else {
-            panic!("Index {} out of bounds", row_no + 1);
+            println!("Index {} out of bounds", row_no + 1);
+            return records.to_vec();
         }
     }
     new_records
@@ -119,12 +127,12 @@ pub fn remove_data_by_column_no(
     records
         .iter()
         .map(|record| {
-            let mut record = record.clone();
+            let mut record = record.to_vec();
             for &col_no in &column_no_list {
                 if col_no < record.len() {
                     record.remove(col_no);
                 } else {
-                    panic!("Index {} out of bounds", col_no + 1);
+                    println!("Index {} out of bounds", col_no + 1);
                 }
             }
             record
@@ -137,9 +145,9 @@ pub fn select_data_by_row_no(records: &[Vec<String>], row_no_list: &[usize]) -> 
     for &row_no in row_no_list {
         let index = row_no - 1;
         if index < records.len() {
-            selected_records.push(records[index].clone());
+            selected_records.push(records[index].to_vec());
         } else {
-            panic!("Index {} out of bounds", row_no);
+            println!("Index {} out of bounds", row_no);
         }
     }
     selected_records
@@ -155,9 +163,9 @@ pub fn select_data_by_column_no(
         for &col_no in column_no_list {
             let index = col_no - 1;
             if index < record.len() {
-                selected_row.push(record[index].clone());
+                selected_row.push(record[index].to_string());
             } else {
-                panic!("Index {} out of bounds", col_no);
+                println!("Index {} out of bounds", col_no);
             }
         }
         selected_records.push(selected_row);
@@ -176,7 +184,8 @@ pub fn replace_data_at_row_no(
         new_records[index] = replace_data.to_vec();
         new_records
     } else {
-        panic!("Index {} out of bounds", row_no);
+        println!("Index {} out of bounds", row_no);
+        records.to_vec()
     }
 }
 
@@ -190,13 +199,14 @@ pub fn replace_data_at_column_no(
         .iter()
         .enumerate()
         .map(|(i, record)| {
-            let mut new_record = record.clone();
-            if index < new_record.len() {
-                new_record[index] = replace_data[i].clone();
+            if index < record.len() {
+                let mut new_record = record.to_vec();
+                new_record[index] = replace_data[i].to_string();
+                new_record
             } else {
-                panic!("Index {} out of bounds", column_no);
+                println!("Index {} out of bounds", column_no);
+                record.to_vec()
             }
-            new_record
         })
         .collect()
 }
@@ -207,9 +217,9 @@ pub fn transpose_data(records: &[Vec<String>]) -> Vec<Vec<String>> {
     let col_count = if row_count > 0 { records[0].len() } else { 0 };
 
     for col in 0..col_count {
-        let mut new_row = Vec::new();
+        let mut new_row = Vec::with_capacity(row_count);
         for row in records {
-            new_row.push(row[col].clone());
+            new_row.push(row[col].to_owned());
         }
         transposed.push(new_row);
     }
@@ -228,10 +238,12 @@ pub fn insert_data_before_row(
             new_records.insert(index, insert_data.to_vec());
             new_records
         } else {
-            panic!("Row number {} is out of bounds", row_no);
+            print!("Row number {} is out of bounds", row_no);
+            records.to_vec()
         }
     } else {
-        panic!("Row number must be greater than 0");
+        println!("Row number must be greater than 0");
+        records.to_vec()
     }
 }
 
@@ -241,7 +253,7 @@ pub fn insert_data_before_column(
     insert_data: &[String],
 ) -> Vec<Vec<String>> {
     if records.len() != insert_data.len() {
-        panic!(
+        println!(
             "insert_data length ({}) does not match number of rows ({})",
             insert_data.len(),
             records.len()
@@ -249,7 +261,8 @@ pub fn insert_data_before_column(
     }
 
     let index = column_no.checked_sub(1).unwrap_or_else(|| {
-        panic!("Column number must be greater than or equal to 1");
+        println!("Column number must be greater than or equal to 1");
+        0 // Default to 0 if column_no is invalid
     });
 
     records
@@ -263,8 +276,10 @@ pub fn insert_data_before_column(
                     i + 1
                 );
             }
-            let mut new_record = record.clone();
-            new_record.insert(index, insert_data[i].clone());
+            let mut new_record = Vec::with_capacity(record.len() + 1);
+            new_record.extend_from_slice(&record[..index]);
+            new_record.push(insert_data[i].to_owned());
+            new_record.extend_from_slice(&record[index..]);
             new_record
         })
         .collect()
@@ -278,19 +293,21 @@ pub fn append_data_row(records: &[Vec<String>], append_data: &[String]) -> Vec<V
 
 pub fn append_data_column(records: &[Vec<String>], append_data: &[String]) -> Vec<Vec<String>> {
     if records.len() != append_data.len() {
-        panic!(
+        println!(
             "append_data length ({}) does not match number of rows ({})",
             append_data.len(),
             records.len()
         );
+
+        return records.to_vec();
     }
 
     records
         .iter()
-        .enumerate()
-        .map(|(i, record)| {
-            let mut new_record = record.clone();
-            new_record.push(append_data[i].clone());
+        .zip(append_data)
+        .map(|(record, value)| {
+            let mut new_record = record.to_vec();
+            new_record.push(value.to_owned());
             new_record
         })
         .collect()
