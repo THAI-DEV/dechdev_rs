@@ -40,7 +40,8 @@ pub fn example_csv_immut() {
     show_csv_data(&v1);
     println!("------------------");
 
-    let result = insert_data_before_column(&v1, 4, &v2);
+    //let result = insert_data_before_column(&v1, 4, &v2);
+    let result = insert_data_before_column(&v1, 5, &v2);
 
     //let result = append_data_row(&v1, &v2);
     // let result = append_data_column(&v1, &v2);

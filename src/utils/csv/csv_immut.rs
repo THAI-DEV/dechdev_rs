@@ -78,6 +78,11 @@ pub fn retrieve_data_by_position(
         return String::new();
     }
 
+    if row_no > records.len() || column_no > records[0].len() {
+        println!("Row and column indices must be within the valid range");
+        return String::new();
+    }
+
     records[row_no - 1][column_no - 1].to_string()
 }
 
@@ -102,6 +107,11 @@ pub fn show_csv_size(records: &[Vec<String>]) -> (usize, usize) {
 }
 
 pub fn remove_data_by_row_no(records: &[Vec<String>], row_no_list: &[usize]) -> Vec<Vec<String>> {
+    if row_no_list.contains(&0) {
+        println!("Index 0 is invalid");
+        return records.to_vec();
+    }
+
     let mut row_no_list: Vec<usize> = row_no_list.iter().map(|&n| n - 1).collect();
     row_no_list.sort_unstable_by(|a, b| b.cmp(a)); // Sort in descending order to avoid shifting issues
 
@@ -121,6 +131,16 @@ pub fn remove_data_by_column_no(
     records: &[Vec<String>],
     column_no_list: &[usize],
 ) -> Vec<Vec<String>> {
+    if column_no_list.contains(&0) {
+        println!("Index 0 is invalid");
+        return records.to_vec();
+    }
+
+    if column_no_list.contains(&(records[0].len() + 1)) {
+        println!("Index {} is out of bounds", records[0].len() + 1);
+        return records.to_vec();
+    }
+
     let mut column_no_list: Vec<usize> = column_no_list.iter().map(|&n| n - 1).collect();
     column_no_list.sort_unstable_by(|a, b| b.cmp(a)); // Sort in descending order to avoid shifting issues
 
@@ -131,8 +151,6 @@ pub fn remove_data_by_column_no(
             for &col_no in &column_no_list {
                 if col_no < record.len() {
                     record.remove(col_no);
-                } else {
-                    println!("Index {} out of bounds", col_no + 1);
                 }
             }
             record
@@ -142,12 +160,20 @@ pub fn remove_data_by_column_no(
 
 pub fn select_data_by_row_no(records: &[Vec<String>], row_no_list: &[usize]) -> Vec<Vec<String>> {
     let mut selected_records = Vec::new();
+    if row_no_list.contains(&0) {
+        println!("Index 0 is invalid");
+        return records.to_vec();
+    }
+
+    if row_no_list.contains(&(records[0].len() + 1)) {
+        println!("Index {} is out of bounds", records[0].len() + 1);
+        return records.to_vec();
+    }
+
     for &row_no in row_no_list {
         let index = row_no - 1;
         if index < records.len() {
             selected_records.push(records[index].to_vec());
-        } else {
-            println!("Index {} out of bounds", row_no);
         }
     }
     selected_records
@@ -157,6 +183,16 @@ pub fn select_data_by_column_no(
     records: &[Vec<String>],
     column_no_list: &[usize],
 ) -> Vec<Vec<String>> {
+    if column_no_list.contains(&0) {
+        println!("Index 0 is invalid");
+        return records.to_vec();
+    }
+
+    if column_no_list.contains(&(records[0].len() + 1)) {
+        println!("Index {} is out of bounds", records[0].len() + 1);
+        return records.to_vec();
+    }
+
     let mut selected_records = Vec::new();
     for record in records.iter() {
         let mut selected_row = Vec::new();
@@ -232,13 +268,23 @@ pub fn insert_data_before_row(
     row_no: usize,
     insert_data: &[String],
 ) -> Vec<Vec<String>> {
+    if row_no == 0 {
+        println!("Row number must be greater than 0");
+        return records.to_vec();
+    }
+
+    if row_no > records.len() {
+        println!("Row number {} is out of bounds", row_no);
+        return records.to_vec();
+    }
+
     if let Some(index) = row_no.checked_sub(1) {
         if index <= records.len() {
             let mut new_records = records.to_vec();
             new_records.insert(index, insert_data.to_vec());
             new_records
         } else {
-            print!("Row number {} is out of bounds", row_no);
+            println!("Row number {} is out of bounds", row_no);
             records.to_vec()
         }
     } else {
@@ -252,12 +298,14 @@ pub fn insert_data_before_column(
     column_no: usize,
     insert_data: &[String],
 ) -> Vec<Vec<String>> {
-    if records.len() != insert_data.len() {
-        println!(
-            "insert_data length ({}) does not match number of rows ({})",
-            insert_data.len(),
-            records.len()
-        );
+    if column_no == 0 {
+        println!("Row number must be greater than 0");
+        return records.to_vec();
+    }
+
+    if column_no > records.len() {
+        println!("Row number {} is out of bounds", column_no);
+        return records.to_vec();
     }
 
     let index = column_no.checked_sub(1).unwrap_or_else(|| {
