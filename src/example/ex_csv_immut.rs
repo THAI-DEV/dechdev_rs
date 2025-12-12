@@ -1,4 +1,4 @@
-use crate::utils::csv::{insert_data_before_column, show_csv_data};
+use crate::utils::csv::{replace_data_at_row_no, show_csv_data};
 
 pub fn example_csv_immut() {
     println!("example_csv_immut");
@@ -41,7 +41,7 @@ pub fn example_csv_immut() {
     println!("------------------");
 
     //let result = insert_data_before_column(&v1, 4, &v2);
-    let result = insert_data_before_column(&v1, 5, &v2);
+    let result = replace_data_at_row_no(&v1, 5, &v2);
 
     //let result = append_data_row(&v1, &v2);
     // let result = append_data_column(&v1, &v2);

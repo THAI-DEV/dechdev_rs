@@ -1,6 +1,6 @@
 use std::time::Instant;
 
-use dechdev_rs::utils::helper;
+use dechdev_rs::{example, utils::helper};
 
 fn main() {
     let start_time = Instant::now();
@@ -30,7 +30,7 @@ fn main() {
     // example::example_slice();
 
     // example::example_csv_mut();
-    // example::example_csv_immut();
+    example::example_csv_immut();
 
     // example::example_group();
 

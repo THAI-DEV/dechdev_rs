@@ -214,6 +214,11 @@ pub fn replace_data_at_row_no(
     row_no: usize,
     replace_data: &[String],
 ) -> Vec<Vec<String>> {
+    if row_no == 0 {
+        println!("Row number must be greater than 0");
+        return records.to_vec();
+    }
+
     let index = row_no - 1;
     if index < records.len() {
         let mut new_records = records.to_vec();
@@ -230,6 +235,11 @@ pub fn replace_data_at_column_no(
     column_no: usize,
     replace_data: &[String],
 ) -> Vec<Vec<String>> {
+    if column_no == 0 {
+        println!("Column number must be greater than 0");
+        return records.to_vec();
+    }
+
     let index = column_no - 1;
     records
         .iter()
