@@ -1,6 +1,6 @@
 use std::time::Instant;
 
-use dechdev_rs::{example, utils::helper};
+use dechdev_rs::utils::helper;
 
 fn main() {
     let start_time = Instant::now();
