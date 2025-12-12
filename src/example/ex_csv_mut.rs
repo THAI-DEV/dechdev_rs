@@ -1,4 +1,4 @@
-use crate::utils::csv::{replace_data_at_column_no_mutably, show_csv_data};
+use crate::utils::csv::{insert_data_before_column_mutably, show_csv_data};
 
 pub fn example_csv_mut() {
     let mut v1 = vec![
@@ -38,7 +38,7 @@ pub fn example_csv_mut() {
     show_csv_data(&v1);
 
     println!("-----------------");
-    replace_data_at_column_no_mutably(&mut v1, 1, v2);
+    insert_data_before_column_mutably(&mut v1, 5, v2);
 
     show_csv_data(&v1);
 }

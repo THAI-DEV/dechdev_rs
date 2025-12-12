@@ -1,4 +1,9 @@
 pub fn remove_data_by_row_no_mutably(records: &mut Vec<Vec<String>>, row_no_list: &[usize]) {
+    if row_no_list.contains(&0) {
+        println!("Index 0 is invalid");
+        return;
+    }
+
     let mut row_no_list: Vec<usize> = row_no_list.iter().map(|&n| n - 1).collect();
     row_no_list.sort_unstable_by(|a, b| b.cmp(a)); // Sort in descending order to avoid shifting issues
 
@@ -7,11 +12,17 @@ pub fn remove_data_by_row_no_mutably(records: &mut Vec<Vec<String>>, row_no_list
             records.remove(row_no);
         } else {
             println!("Index {} out of bounds", row_no + 1);
+            break;
         }
     }
 }
 
 pub fn remove_data_by_column_no_mutably(records: &mut [Vec<String>], column_no_list: &[usize]) {
+    if column_no_list.contains(&0) {
+        println!("Index 0 is invalid");
+        return;
+    }
+
     let mut column_no_list: Vec<usize> = column_no_list.iter().map(|&n| n - 1).collect();
     column_no_list.sort_unstable_by(|a, b| b.cmp(a)); // Sort in descending order to avoid shifting issues
 
@@ -21,26 +32,45 @@ pub fn remove_data_by_column_no_mutably(records: &mut [Vec<String>], column_no_l
                 record.remove(col_no);
             } else {
                 println!("Index {} out of bounds", col_no + 1);
+                break;
             }
         }
     }
 }
 
 pub fn select_data_by_row_no_mutably(records: &mut Vec<Vec<String>>, row_no_list: &[usize]) {
+    if row_no_list.contains(&0) {
+        println!("Index 0 is invalid");
+        return;
+    }
+
+    if row_no_list.contains(&(records[0].len() + 1)) {
+        println!("Index {} is out of bounds", records[0].len() + 1);
+        return;
+    }
+
     let mut selected_records = Vec::new();
     for &row_no in row_no_list {
         let index = row_no - 1;
         if index < records.len() {
             let record = std::mem::take(&mut records[index]);
             selected_records.push(record);
-        } else {
-            println!("Index {} out of bounds", row_no);
         }
     }
     *records = selected_records;
 }
 
 pub fn select_data_by_column_no_mutably(records: &mut Vec<Vec<String>>, column_no_list: &[usize]) {
+    if column_no_list.contains(&0) {
+        println!("Index 0 is invalid");
+        return;
+    }
+
+    if column_no_list.contains(&(records[0].len() + 1)) {
+        println!("Index {} is out of bounds", records[0].len() + 1);
+        return;
+    }
+
     let mut selected_records = Vec::new();
     for record in records.iter_mut() {
         let mut selected_row = Vec::new();
@@ -48,8 +78,6 @@ pub fn select_data_by_column_no_mutably(records: &mut Vec<Vec<String>>, column_n
             let index = col_no - 1;
             if index < record.len() {
                 selected_row.push(std::mem::take(&mut record[index]));
-            } else {
-                println!("Index {} out of bounds", col_no);
             }
         }
         selected_records.push(selected_row);
@@ -62,11 +90,19 @@ pub fn replace_data_at_row_no_mutably(
     row_no: usize,
     replace_data: Vec<String>,
 ) {
+    if row_no == 0 {
+        println!("Index 0 is invalid");
+        return;
+    }
+
+    if row_no > records.len() {
+        println!("Index {} out of bounds", row_no);
+        return;
+    }
+
     let index = row_no - 1;
     if index < records.len() {
         records[index] = replace_data;
-    } else {
-        println!("Index {} out of bounds", row_no);
     }
 }
 
@@ -75,14 +111,20 @@ pub fn replace_data_at_column_no_mutably(
     column_no: usize,
     mut replace_data: Vec<String>,
 ) {
+    if column_no == 0 {
+        println!("Index 0 is invalid");
+        return;
+    }
+
+    if column_no > records[0].len() {
+        println!("Index {} out of bounds", column_no);
+        return;
+    }
+
     let index = column_no - 1;
     for (i, record) in records.iter_mut().enumerate() {
-        if index < record.len() {
-            if let Some(value) = replace_data.get_mut(i) {
-                record[index] = std::mem::take(value);
-            }
-        } else {
-            println!("Index {} out of bounds", column_no);
+        if let Some(value) = replace_data.get_mut(i).filter(|_| index < record.len()) {
+            record[index] = std::mem::take(value);
         }
     }
 }
@@ -93,6 +135,11 @@ pub fn replace_data_at_position_mutably(
     column_no: usize,
     replace_data: &str,
 ) {
+    if row_no == 0 || column_no == 0 {
+        println!("Index 0 is invalid");
+        return;
+    }
+
     let index = row_no - 1;
     if index < records.len() {
         records[index][column_no - 1] = replace_data.to_string();
@@ -107,6 +154,11 @@ pub fn replace_data_at_index_mutably(
     column_index: usize,
     replace_data: &str,
 ) {
+    if row_index >= records[0].len() || column_index >= records[0].len() {
+        println!("Row index Or Column index out of bounds");
+        return;
+    }
+
     let index = row_index;
     if index < records.len() {
         records[index][column_index] = replace_data.to_string();
@@ -135,11 +187,19 @@ pub fn insert_data_before_row_mutably(
     row_no: usize,
     insert_data: Vec<String>,
 ) {
+    if row_no == 0 {
+        println!("Row number must be greater than 0");
+        return;
+    }
+
+    if row_no > records.len() {
+        println!("Row number {} is out of bounds", row_no);
+        return;
+    }
+
     if let Some(index) = row_no.checked_sub(1) {
         if index <= records.len() {
             records.insert(index, insert_data);
-        } else {
-            println!("Row number {} is out of bounds", row_no);
         }
     } else {
         println!("Row number must be greater than 0");
@@ -151,6 +211,16 @@ pub fn insert_data_before_column_mutably(
     column_no: usize,
     mut insert_data: Vec<String>,
 ) {
+    if column_no == 0 {
+        println!("Column number must be greater than 0");
+        return;
+    }
+
+    if column_no > records.len() {
+        println!("Column number {} is out of bounds", column_no);
+        return;
+    }
+
     if records.len() != insert_data.len() {
         println!(
             "insert_data length ({}) does not match number of rows ({})",
