@@ -1,6 +1,6 @@
 [package]
 name = "dechdev_rs"
-version = "0.1.40"
+version = "0.1.41"
 edition = "2024"
 authors = ["Ruangdech  Kurunat"]
 description = "A Rust library by DECHDEV."
@@ -30,4 +30,4 @@ password-hash = "0.5.0"
 rand = "0.9.2"
 rand_core = { version = "0.9.3", features = ["std"] }
 regex = "1.12.2"
-reqwest = { version = "0.12.25", features = ["json", "blocking"] }
+reqwest = { version = "0.12.28", features = ["json", "blocking"] }

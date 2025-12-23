@@ -34,6 +34,8 @@ fn main() {
 
     // example::example_group();
 
+    // example::example_numeric();
+
     println!();
     println!("--- End ({:?}) ---", start_time.elapsed());
 }
