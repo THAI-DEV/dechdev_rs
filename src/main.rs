@@ -7,7 +7,7 @@ fn main() {
     helper::scroll_console();
     println!("Welcome to DechDev-RS!\n");
 
-    //example::example_random();
+    // example::example_random();
 
     // example::example_string_case();
 

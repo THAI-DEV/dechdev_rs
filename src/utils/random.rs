@@ -1,3 +1,5 @@
+use rand::RngExt;
+
 /// A configuration struct for customizing random string generation.
 ///
 /// This struct allows fine-grained control over which character sets are included
@@ -72,7 +74,6 @@ impl Default for RandomStringCustomOptions {
 ///
 /// Example Result : 43
 pub fn random_number(min: i32, max: i32) -> i32 {
-    use rand::Rng;
     let mut rng = rand::rng();
     rng.random_range(min..=max)
 }
@@ -89,7 +90,7 @@ pub fn random_number_string(min: i32, max: i32) -> String {
 /// Example Output : bje3aMzzce1
 pub fn random_string_alpha_numeric(length: u32) -> String {
     //A-Z a-z 0-9
-    use rand::{Rng, distr::Alphanumeric};
+    use rand::distr::Alphanumeric;
     let mut rng = rand::rng();
     (0..length)
         .map(|_| rng.sample(Alphanumeric) as char)
@@ -100,7 +101,7 @@ pub fn random_string_alpha_numeric(length: u32) -> String {
 ///
 /// Example Output : 0629133926
 pub fn random_string_numeric(length: u32) -> String {
-    use rand::{Rng, distr::Uniform};
+    use rand::distr::Uniform;
     let mut rng = rand::rng();
     let chars: Vec<char> = "0123456789".chars().collect();
     let uniform = Uniform::new(0, chars.len()).unwrap();
@@ -111,7 +112,7 @@ pub fn random_string_numeric(length: u32) -> String {
 ///
 /// Example Output : 8629133926
 pub fn random_string_number(length: u32) -> String {
-    use rand::{Rng, distr::Uniform};
+    use rand::distr::Uniform;
     let mut rng = rand::rng();
 
     if length == 0 {
@@ -138,7 +139,7 @@ pub fn random_string_number(length: u32) -> String {
 /// Example Output : bjejaMzzce
 pub fn random_string_alpha(length: u32) -> String {
     //A-Z a-z
-    use rand::{Rng, distr::Uniform};
+    use rand::distr::Uniform;
     let mut rng = rand::rng();
     let chars: Vec<char> = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
         .chars()
@@ -163,7 +164,7 @@ pub fn random_string_alpha(length: u32) -> String {
 ///
 /// let random_string = random::random_string_custom(20, opts);
 pub fn random_string_custom(length: u32, opts: RandomStringCustomOptions) -> String {
-    use rand::{Rng, distr::Uniform};
+    use rand::distr::Uniform;
 
     let mut rng = rand::rng();
 

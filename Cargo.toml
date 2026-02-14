@@ -1,6 +1,6 @@
 [package]
 name = "dechdev_rs"
-version = "0.1.42"
+version = "0.1.43"
 edition = "2024"
 authors = ["Ruangdech  Kurunat"]
 description = "A Rust library by DECHDEV."
@@ -23,10 +23,10 @@ aes = "0.8.4"
 aes-gcm = "0.10.3"
 argon2 = "0.5.3"
 base64 = "0.22.1"
-bcrypt = "0.17.1"
+bcrypt = "0.18.0"
 csv = "1.4.0"
 hex = "0.4.3"
 password-hash = "0.5.0"
-rand = "0.9.2"
-rand_core = { version = "0.9.3", features = ["std"] }
-regex = "1.12.2"
+rand = "0.10.0"
+rand_core = "0.10.0"
+regex = "1.12.3"
