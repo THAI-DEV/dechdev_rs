@@ -16,14 +16,14 @@ fn ex_int() {
     let c = -1234567;
     let d = -123;
 
-    let r1 = format_integer_with_commas(a.try_into().unwrap());
-    let r2 = format_integer_with_commas(b.try_into().unwrap());
-    let r3 = format_integer_with_commas(c.try_into().unwrap());
-    let r4 = format_integer_with_commas(d.try_into().unwrap());
-    let r5 = pad_integer_with_zero(b.try_into().unwrap(), 5);
-    let r6 = pad_integer_with_zero(d.try_into().unwrap(), 5);
-    let r7 = pad_integer_with_zero(b.try_into().unwrap(), 3);
-    let r8 = pad_integer_with_zero(d.try_into().unwrap(), 3);
+    let r1 = format_integer_with_commas(a);
+    let r2 = format_integer_with_commas(b);
+    let r3 = format_integer_with_commas(c);
+    let r4 = format_integer_with_commas(d);
+    let r5 = pad_integer_with_zero(b, 5);
+    let r6 = pad_integer_with_zero(d, 5);
+    let r7 = pad_integer_with_zero(b, 3);
+    let r8 = pad_integer_with_zero(d, 3);
 
     println!("{}", r1);
     println!("{}", r2);
