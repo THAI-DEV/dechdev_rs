@@ -37,3 +37,27 @@ pub fn format_float_with_commas(value: f64, precision: usize) -> String {
 
     formatted_integer
 }
+
+pub fn pad_integer_with_zero(value: isize, len: usize) -> String {
+    let is_negative = value < 0;
+    let mut formatted = value.abs().to_string();
+    while formatted.len() < len {
+        formatted = format!("0{}", formatted);
+    }
+    if is_negative {
+        formatted.insert(0, '-');
+    }
+    formatted
+}
+
+pub fn pad_float_with_zero(value: f64, len: usize) -> String {
+    let is_negative = value < 0.0;
+    let mut formatted = value.abs().to_string();
+    while formatted.len() < len {
+        formatted = format!("0{}", formatted);
+    }
+    if is_negative {
+        formatted.insert(0, '-');
+    }
+    formatted
+}
