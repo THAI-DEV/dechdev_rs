@@ -20,6 +20,7 @@ fn ex_int() {
     let r2 = format_integer_with_commas(b);
     let r3 = format_integer_with_commas(c);
     let r4 = format_integer_with_commas(d);
+
     let r5 = pad_integer_with_zero(b, 5);
     let r6 = pad_integer_with_zero(d, 5);
     let r7 = pad_integer_with_zero(b, 3);
@@ -46,8 +47,11 @@ fn ex_float() {
     let r2 = format_float_with_commas(b, 2);
     let r3 = format_float_with_commas(c, 4);
     let r4 = format_float_with_commas(d, 3);
-    let r5 = pad_float_with_zero(b, 7);
-    let r6 = pad_float_with_zero(d, 9);
+
+    let r5 = pad_float_with_zero(b, 4, 2);
+    let r6 = pad_float_with_zero(d, 4, 2);
+    let r7 = pad_float_with_zero(d, 4, 3);
+    let r8 = pad_float_with_zero(d, 4, 4);
 
     println!("{}", r1);
     println!("{}", r2);
@@ -55,4 +59,6 @@ fn ex_float() {
     println!("{}", r4);
     println!("{}", r5);
     println!("{}", r6);
+    println!("{}", r7);
+    println!("{}", r8);
 }

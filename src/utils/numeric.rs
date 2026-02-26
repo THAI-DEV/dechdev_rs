@@ -50,14 +50,37 @@ pub fn pad_integer_with_zero(value: isize, len: usize) -> String {
     formatted
 }
 
-pub fn pad_float_with_zero(value: f64, len: usize) -> String {
+pub fn pad_float_with_zero(value: f64, padding_len: usize, precision_len: usize) -> String {
     let is_negative = value < 0.0;
-    let mut formatted = value.abs().to_string();
-    while formatted.len() < len {
-        formatted = format!("0{}", formatted);
+    let formatted = format!("{:.*}", precision_len, value.abs());
+
+    let (integer_part, fractional_part) = match formatted.split_once('.') {
+        Some((integer, fractional)) => (integer, Some(fractional)),
+        None => (formatted.as_str(), None),
+    };
+
+    let padded_integer = if integer_part.len() < padding_len {
+        format!(
+            "{}{}",
+            "0".repeat(padding_len - integer_part.len()),
+            integer_part
+        )
+    } else {
+        integer_part.to_string()
+    };
+
+    let mut result = padded_integer;
+    if precision_len > 0 {
+        let fractional = fractional_part
+            .map(|fraction| fraction.to_string())
+            .unwrap_or_else(|| "0".repeat(precision_len));
+        result.push('.');
+        result.push_str(&fractional);
     }
+
     if is_negative {
-        formatted.insert(0, '-');
+        result.insert(0, '-');
     }
-    formatted
+
+    result
 }
